@@ -95,7 +95,7 @@ export const getRouterData = app => {
       // authority: 'admin',
     },
     "/blog/new": {
-      component: dynamicWrapper(app, ["form"], () =>
+      component: dynamicWrapper(app, ["blog"], () =>
         import("../routes/Blog/New")
       )
     },

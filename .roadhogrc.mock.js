@@ -24,7 +24,7 @@ const proxy = {
     },
     $body: {
       name: "Gatinul",
-      avatar: "src/assets/avatar.png",
+      avatar: "static/avatar.png",
       userid: "00000001",
       notifyCount: 12
     }
@@ -137,5 +137,4 @@ const proxy = {
     });
   }
 };
-
 export default (noProxy ? {} : delay(proxy, 1000));
