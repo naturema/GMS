@@ -12,5 +12,9 @@ module.exports = {
   async draft(title, short, content) {
     const result = await blogModel.draft(title, short, content);
     return result.affectedRows > 0 ? true : false;
+  },
+  async getDraft(row, size) {
+    const result = await blogModel.getDraft(row, size);
+    return result;
   }
 };

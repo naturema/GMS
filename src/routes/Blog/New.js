@@ -5,6 +5,7 @@ import { Icon, Row, Col, Input, Button, Modal, message } from "antd";
 import marked from "marked";
 import highlight from "highlight.js";
 import numeral from "numeral";
+import PageHeaderLayout from "../../layouts/PageHeaderLayout";
 
 import styles from "./New.less";
 
@@ -54,11 +55,14 @@ export default class New extends PureComponent {
   state = {
     isEdit: true,
     previewStyle: showStyle,
-    value: "## Hello Gatinul , write now ! \n > 20170613",
+    value: "",
     screenStyle: halfStyle,
     ModalText: "Content of the modal",
     visible: false
   };
+  componentWillMount() {
+    this.state.value = this.props.blog.value;
+  }
   handle = () => {
     this.props
       .dispatch({
@@ -142,62 +146,64 @@ export default class New extends PureComponent {
 
   render() {
     const { visible, ModalText, previewStyle, screenStyle, value } = this.state;
-    const { blog: { isPublish }, loading } = this.props;
+    const { blog: { isPublish } } = this.props;
     return (
-      <div className={styles.content}>
-        <a>
-          <Icon
-            type="arrows-alt"
-            style={{ float: "right", marginRight: "1.5em" }}
-            onClick={this.changeEdit}
-          />
-          <Button
-            onClick={this.draft}
-            style={{
-              borderColor: "#1890ff",
-              color: "#1890ff",
-              float: "right",
-              marginRight: ".7rem",
-              marginTop: "-.5rem"
-            }}
-          >
-            保存
-          </Button>
-          <Button
-            onClick={this.handle}
-            style={{
-              borderColor: "#1890ff",
-              color: "#1890ff",
-              float: "right",
-              marginRight: ".7rem",
-              marginTop: "-.5rem"
-            }}
-          >
-            发布
-          </Button>
-        </a>
-        <Row type="flex" justify="center" gutter={16}>
-          <Col span={12}>
-            <textarea
-              style={previewStyle}
-              className={styles.markdown_textarea}
-              name="mkinput"
-              onChange={this.handleChange}
-              onKeyDown={this.keyDownEvent}
-              ref="textarea"
-              defaultValue={value}
+      <PageHeaderLayout>
+        <div className={styles.content}>
+          <a>
+            <Icon
+              type="arrows-alt"
+              style={{ float: "right", marginRight: "1.5em" }}
+              onClick={this.changeEdit}
             />
-          </Col>
-          <Col span={12} style={screenStyle}>
-            <div
-              className="hljs"
-              dangerouslySetInnerHTML={{
-                __html: marked(value)
+            <Button
+              onClick={this.draft}
+              style={{
+                borderColor: "#1890ff",
+                color: "#1890ff",
+                float: "right",
+                marginRight: ".7rem",
+                marginTop: "-.5rem"
               }}
-            />
-          </Col>
-        </Row>
-      </div>
+            >
+              保存
+            </Button>
+            <Button
+              onClick={this.handle}
+              style={{
+                borderColor: "#1890ff",
+                color: "#1890ff",
+                float: "right",
+                marginRight: ".7rem",
+                marginTop: "-.5rem"
+              }}
+            >
+              发布
+            </Button>
+          </a>
+          <Row type="flex" justify="center" gutter={16}>
+            <Col span={12}>
+              <textarea
+                style={previewStyle}
+                className={styles.markdown_textarea}
+                name="mkinput"
+                onChange={this.handleChange}
+                onKeyDown={this.keyDownEvent}
+                ref="textarea"
+                defaultValue={value}
+              />
+            </Col>
+            <Col span={12} style={screenStyle}>
+              <div
+                className="hljs"
+                dangerouslySetInnerHTML={{
+                  __html: marked(value)
+                }}
+              />
+            </Col>
+          </Row>
+        </div>
+      </PageHeaderLayout>
     );
   }
 }

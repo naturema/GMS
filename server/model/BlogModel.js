@@ -23,5 +23,12 @@ module.exports = {
     };
     const result = await db.insertData("blog_main", option);
     return result;
+  },
+  async getDraft(row, size) {
+    const _sql = `
+         SELECT * FROM blog_main
+         WHERE status=0 limit ${row},${size}`;
+    const result = await db.query(_sql);
+    return result;
   }
 };

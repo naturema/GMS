@@ -8,6 +8,8 @@ const router = new Router();
 router.get("/", main.index);
 router.post("/blog/publish", blog.publish);
 router.post("/blog/draft", blog.draft);
+router.post("/blog/getDraft", blog.getDraft);
+
 router.get("/api/project/notice", mock.notice);
 router.get("/api/currentUser", mock.user);
 router.get("/api/activities", mock.getActivities);

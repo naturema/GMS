@@ -12,3 +12,9 @@ export async function draftBlog(params) {
     body: params
   });
 }
+export async function getDraft(params) {
+  return request("/blog/getDraft", {
+    method: "POST",
+    body: params.toString()
+  });
+}

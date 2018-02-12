@@ -9,10 +9,7 @@ module.exports = {
    * @param {obj}
    */
   async publish(ctx) {
-    const result = {
-      success: false,
-      message: ""
-    };
+    const result = obj;
     log.info(format("发布博客", __filename));
     const opt = resolve(ctx);
     const res = await blogService.publish(opt.title, opt.short, opt.content);
@@ -24,18 +21,27 @@ module.exports = {
     ctx.body = result;
   },
   async draft(ctx) {
-    const result = {
-      success: false,
-      message: ""
-    };
+    const result = obj;
     log.info(format("保存博客", __filename));
     const opt = resolve(ctx);
-    console.log(opt);
     const res = await blogService.draft(opt.title, opt.short, opt.content);
     if (res) {
       result.success = true;
     } else {
       result.message = "保存失败";
+    }
+    ctx.body = result;
+  },
+  async getDraft(ctx) {
+    const result = obj;
+    const index = parseInt(ctx.request.body);
+    log.info(format(`获取草稿博文${index + 1}到${index + 6}条`, __filename));
+    const res = await blogService.getDraft(index, 6);
+    if (res) {
+      result.success = true;
+      result.message = res;
+    } else {
+      result.message = "获取草稿失败";
     }
     ctx.body = result;
   }
@@ -45,10 +51,17 @@ function resolve(ctx) {
   const title = arr[0];
   const content = ctx.request.body.split(title + "\n")[1];
   const short = content.split("<!--More-->\n")[0];
+  let content1;
+  content.split("<!--More-->\n")[1]
+    ? (content1 = content.split("<!--More-->\n")[1])
+    : (content1 = "");
   return {
     title: title.replace(/#/g, "").trim(),
     short: short.trim(),
-    content:
-      content.split("<!--More-->\n")[0] + content.split("<!--More-->\n")[1]
+    content: content.split("<!--More-->\n")[0] + content1
   };
 }
+const obj = {
+  success: false,
+  message: ""
+};

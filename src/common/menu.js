@@ -30,6 +30,10 @@ const menuData = [
         name: "新建博客",
         path: "new"
         // hideInMenu: true,
+      },
+      {
+        name: "草稿箱",
+        path: "draft"
       }
     ]
   },

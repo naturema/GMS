@@ -50,6 +50,23 @@ const proxy = {
       address: "Sidney No. 1 Lake Park"
     }
   ],
+  "POST /blog/getDraft": {
+    success: true,
+    message: [
+      {
+        id: 26,
+        blog_title: "Hello Gatinul",
+        blog_desc: "> 2018 02 11",
+        blog_content: "> 2018 02 11\n\n\n测试博客保存是否好用",
+        likes: null,
+        views: null,
+        hot: null,
+        create_time: "2018-02-11T08:36:25.000Z",
+        update_time: null,
+        status: "0"
+      }
+    ]
+  },
   "GET /api/project/notice": getNotice,
   "GET /api/activities": getActivities,
   "GET /api/rule": getRule,

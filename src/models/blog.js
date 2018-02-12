@@ -1,12 +1,16 @@
-import { publishBlog, draftBlog } from "../services/blog";
+import { publishBlog, draftBlog, getDraft } from "../services/blog";
 import { message } from "antd";
+import { routerRedux } from "dva/router";
 
 export default {
   namespace: "blog",
 
   state: {
     isPublish: "发布失败",
-    isDraft: "保存失败"
+    isDraft: "保存失败",
+    value: "## Hello Gatinul , write now ~ \n > 20170613",
+    draftList: [],
+    more: true
   },
 
   effects: {
@@ -23,6 +27,25 @@ export default {
         type: "draft",
         payload: response.success ? "保存成功" : "保存失败"
       });
+    },
+    *getDraft({ payload }, { call, put }) {
+      const res = yield call(getDraft, payload);
+      yield put({
+        type: "draftGet",
+        payload: res.success ? res.message : []
+      });
+    },
+    *clearDraft(_, { call, put }) {
+      yield put({
+        type: "draftClear"
+      });
+    },
+    *editDraft({ payload }, { call, put }) {
+      yield put({
+        type: "dratfEdit",
+        payload: payload
+      });
+      yield put(routerRedux.push("/blog/new"));
     }
   },
 
@@ -37,6 +60,29 @@ export default {
       return {
         ...state,
         isDraft: action.payload
+      };
+    },
+    draftGet(state, action) {
+      let b;
+      action.payload.length > 0 ? (b = true) : (b = false);
+      return {
+        ...state,
+        draftList: state.draftList.concat(action.payload),
+        more: b
+      };
+    },
+    draftClear(state, action) {
+      return {
+        ...state,
+        draftList: [],
+        value: "## Hello Gatinul , write now ~ \n > 20170613",
+        more: true
+      };
+    },
+    dratfEdit(state, action) {
+      return {
+        ...state,
+        value: action.payload
       };
     }
   }
