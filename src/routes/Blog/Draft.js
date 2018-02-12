@@ -63,7 +63,18 @@ export default class Draft extends PureComponent {
         window.dispatchEvent(new Event("resize"));
       });
   };
-  delDraft = () => {};
+  delDraft = item => {
+    const self = this;
+    console.log(item.item.id);
+    self.props
+      .dispatch({
+        type: "blog/delDraft",
+        payload: item.item.id
+      })
+      .then(res => {
+        message.success("删除成功");
+      });
+  };
   editDraft = item => {
     const self = this;
     self.props.dispatch({
@@ -99,7 +110,7 @@ export default class Draft extends PureComponent {
             <List.Item
               actions={[
                 <a onClick={this.editDraft.bind(this, { item })}>编辑</a>,
-                <a onClick={this.delDraft}>删除</a>
+                <a onClick={this.delDraft.bind(this, { item })}>删除</a>
               ]}
             >
               <List.Item.Meta

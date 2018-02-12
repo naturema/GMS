@@ -44,8 +44,27 @@ module.exports = {
       result.message = "获取草稿失败";
     }
     ctx.body = result;
+  },
+  async delDraft(ctx) {
+    const result = obj;
+    console.log(ctx.request.body);
+    const id = ctx.request.body;
+    log.info(format(`删除id为${id}的博文草稿`, __filename));
+    const res = await blogService.delDraft(id);
+    if (res) {
+      result.success = true;
+      result.message = id;
+    } else {
+      result.message = "删除草稿失败";
+    }
+    ctx.body = result;
   }
 };
+/**
+ * [resolve 处理博客数据]
+ * @param  {[type]} ctx [description]
+ * @return {[type]}     [description]
+ */
 function resolve(ctx) {
   const arr = ctx.request.body.split("\n", 2);
   const title = arr[0];

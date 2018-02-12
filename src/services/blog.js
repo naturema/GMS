@@ -18,3 +18,9 @@ export async function getDraft(params) {
     body: params.toString()
   });
 }
+export async function delDraft(params) {
+  return request("/blog/delDraft", {
+    method: "POST",
+    body: params.toString()
+  });
+}

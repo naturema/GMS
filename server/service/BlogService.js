@@ -16,5 +16,9 @@ module.exports = {
   async getDraft(row, size) {
     const result = await blogModel.getDraft(row, size);
     return result;
+  },
+  async delDraft(id) {
+    const result = await blogModel.delDraft(id);
+    return result.affectedRows > 0 ? true : false;
   }
 };

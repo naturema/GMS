@@ -1,7 +1,7 @@
-import { publishBlog, draftBlog, getDraft } from "../services/blog";
+import { publishBlog, draftBlog, getDraft, delDraft } from "../services/blog";
 import { message } from "antd";
 import { routerRedux } from "dva/router";
-
+import remove from "lodash/remove";
 export default {
   namespace: "blog",
 
@@ -46,6 +46,13 @@ export default {
         payload: payload
       });
       yield put(routerRedux.push("/blog/new"));
+    },
+    *delDraft({ payload }, { call, put }) {
+      const res = yield call(delDraft, payload);
+      yield put({
+        type: "draftDel",
+        payload: res.success ? res.message : null
+      });
     }
   },
 
@@ -83,6 +90,16 @@ export default {
       return {
         ...state,
         value: action.payload
+      };
+    },
+    draftDel(state, action) {
+      const even = remove(state.draftList, n => {
+        return n.id == action.payload;
+      });
+      console.log(even);
+      return {
+        ...state,
+        draftList: state.draftList
       };
     }
   }

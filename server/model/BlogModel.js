@@ -30,5 +30,9 @@ module.exports = {
          WHERE status=0 limit ${row},${size}`;
     const result = await db.query(_sql);
     return result;
+  },
+  async delDraft(id) {
+    const result = await db.deleteDataById("blog_main", id);
+    return result;
   }
 };
