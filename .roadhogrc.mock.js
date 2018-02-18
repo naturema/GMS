@@ -67,6 +67,10 @@ const proxy = {
       }
     ]
   },
+  "GET /blog/getTags": {
+    success: false,
+    message: ""
+  },
   "GET /api/project/notice": getNotice,
   "GET /api/activities": getActivities,
   "GET /api/rule": getRule,

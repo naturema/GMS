@@ -20,5 +20,9 @@ module.exports = {
   async delDraft(id) {
     const result = await blogModel.delDraft(id);
     return result.affectedRows > 0 ? true : false;
+  },
+  async getTags() {
+    const result = await blogModel.getTags();
+    return result;
   }
 };

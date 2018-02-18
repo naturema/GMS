@@ -2,6 +2,7 @@ import React, { PureComponent, PropTypes } from "react";
 import { connect } from "dva";
 import ReactDOM from "react-dom";
 import { Icon, Row, Col, Input, Button, Modal, message } from "antd";
+const { TextArea } = Input;
 import marked from "marked";
 import highlight from "highlight.js";
 import numeral from "numeral";
@@ -27,15 +28,6 @@ const hideStyle = {
 };
 const showStyle = {
   display: "block"
-};
-const heightLevel1 = {
-  height: "750px"
-};
-const heightLevel2 = {
-  height: "1050px"
-};
-const heightLevel3 = {
-  height: "1350px"
 };
 const fullStyle = {
   width: "80%",
@@ -110,19 +102,6 @@ export default class New extends PureComponent {
     this.setState({
       value: ReactDOM.findDOMNode(this.refs.textarea).value
     });
-    if (this.state.value.split(/\r?\n/).length > 60) {
-      this.setState({
-        previewStyle: heightLevel3
-      });
-    } else if (this.state.value.split(/\r?\n/).length > 40) {
-      this.setState({
-        previewStyle: heightLevel2
-      });
-    } else if (this.state.value.split(/\r?\n/).length > 20) {
-      this.setState({
-        previewStyle: heightLevel1
-      });
-    }
   };
   keyDownEvent = event => {
     if (event.keyCode == 9) {
@@ -183,7 +162,8 @@ export default class New extends PureComponent {
           </a>
           <Row type="flex" justify="center" gutter={16}>
             <Col span={12}>
-              <textarea
+              <TextArea
+                autosize
                 style={previewStyle}
                 className={styles.markdown_textarea}
                 name="mkinput"

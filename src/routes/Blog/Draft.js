@@ -2,7 +2,6 @@ import React, { PureComponent, PropTypes } from "react";
 import { connect } from "dva";
 import ReactDOM from "react-dom";
 import { Icon, Spin, Button, Avatar, message, List } from "antd";
-import numeral from "numeral";
 import PageHeaderLayout from "../../layouts/PageHeaderLayout";
 
 import styles from "./Draft.less";

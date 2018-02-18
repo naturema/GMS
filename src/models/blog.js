@@ -1,4 +1,10 @@
-import { publishBlog, draftBlog, getDraft, delDraft } from "../services/blog";
+import {
+  publishBlog,
+  draftBlog,
+  getDraft,
+  delDraft,
+  getTags
+} from "../services/blog";
 import { message } from "antd";
 import { routerRedux } from "dva/router";
 import remove from "lodash/remove";
@@ -10,7 +16,8 @@ export default {
     isDraft: "保存失败",
     value: "## Hello Gatinul , write now ~ \n > 20170613",
     draftList: [],
-    more: true
+    more: true,
+    tagList: []
   },
 
   effects: {
@@ -52,6 +59,13 @@ export default {
       yield put({
         type: "draftDel",
         payload: res.success ? res.message : null
+      });
+    },
+    *getTags(_, { call, put }) {
+      const res = yield call(getTags);
+      yield put({
+        type: "tagsGet",
+        payload: res.success ? res.message : []
       });
     }
   },
@@ -100,6 +114,12 @@ export default {
       return {
         ...state,
         draftList: state.draftList
+      };
+    },
+    tagsGet(state, action) {
+      return {
+        ...state,
+        tagList: action.payload
       };
     }
   }

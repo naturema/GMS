@@ -47,7 +47,6 @@ module.exports = {
   },
   async delDraft(ctx) {
     const result = obj;
-    console.log(ctx.request.body);
     const id = ctx.request.body;
     log.info(format(`删除id为${id}的博文草稿`, __filename));
     const res = await blogService.delDraft(id);
@@ -56,6 +55,18 @@ module.exports = {
       result.message = id;
     } else {
       result.message = "删除草稿失败";
+    }
+    ctx.body = result;
+  },
+  async getTags(ctx) {
+    const result = obj;
+    log.info(format("获取博文标签列表", __filename));
+    const res = await blogService.getTags();
+    if (res) {
+      result.success = true;
+      result.message = res;
+    } else {
+      result.message = "获取博文标签列表失败";
     }
     ctx.body = result;
   }

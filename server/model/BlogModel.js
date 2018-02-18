@@ -34,5 +34,9 @@ module.exports = {
   async delDraft(id) {
     const result = await db.deleteDataById("blog_main", id);
     return result;
+  },
+  async getTags() {
+    const result = await db.select("blog_tag", "*");
+    return result;
   }
 };

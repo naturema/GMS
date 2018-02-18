@@ -34,6 +34,10 @@ const menuData = [
       {
         name: "草稿箱",
         path: "draft"
+      },
+      {
+        name: "标签管理",
+        path: "tag"
       }
     ]
   },

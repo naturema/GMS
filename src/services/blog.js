@@ -24,3 +24,6 @@ export async function delDraft(params) {
     body: params.toString()
   });
 }
+export async function getTags() {
+  return request("/blog/getTags");
+}
