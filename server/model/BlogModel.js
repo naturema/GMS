@@ -30,6 +30,14 @@ module.exports = {
       tag_color_b: obj.colorb
     };
     const result = await db.insertData("blog_main", option);
+    if (result.affectedRows > 0) {
+      const commit = {
+        commit_name: title,
+        commit_desc: short,
+        commit_time: time.format(new Date(), "YYYY/MM/DD")
+      };
+      db.insertData("blog_commit", commit);
+    }
     return result;
   },
   async draft(title, short, content) {
@@ -64,7 +72,6 @@ module.exports = {
       WHERE tag_name = "${tag}"
     `;
     const result = await db.query(_sql);
-    console.log(result[0].tag_color);
     return result[0].tag_color;
   }
 };
