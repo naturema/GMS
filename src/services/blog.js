@@ -1,7 +1,6 @@
 import request from "../utils/request";
 
 export async function publishBlog(params) {
-  console.log(params);
   return request("/blog/publish", {
     method: "POST",
     body: JSON.stringify(params)

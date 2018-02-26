@@ -1,5 +1,6 @@
 import React, { PureComponent, PropTypes } from "react";
 import { connect } from "dva";
+import { routerRedux } from "dva/router";
 import ReactDOM from "react-dom";
 import {
   Icon,
@@ -124,14 +125,13 @@ export default class New extends PureComponent {
       })
       .then(() => {
         if (this.props.blog.isPublish == "发布成功") {
-          message.success("提交成功");
           this.setState({
+            value: "",
             visible: false,
             confirmLoading: false
           });
-          this.props.dispatch({
-            type: "blog/clearDraft"
-          });
+          ReactDOM.findDOMNode(this.refs.textarea).value = "";
+          message.success("提交成功");
         } else {
           message.error("提交失败，请重试");
         }
