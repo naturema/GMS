@@ -17,7 +17,8 @@ export default {
     value: "## Hello Gatinul , write now ~ \n > 20170613",
     draftList: [],
     more: true,
-    tagList: []
+    tagList: [],
+    dataSource: []
   },
 
   effects: {
@@ -67,6 +68,13 @@ export default {
         type: "tagsGet",
         payload: res.success ? res.message : []
       });
+    },
+    *getDataSource(_, { call, put }) {
+      const res = yield call(getTags);
+      yield put({
+        type: "dataSourceGet",
+        payload: res.success ? res.message : []
+      });
     }
   },
 
@@ -110,7 +118,6 @@ export default {
       const even = remove(state.draftList, n => {
         return n.id == action.payload;
       });
-      console.log(even);
       return {
         ...state,
         draftList: state.draftList
@@ -120,6 +127,16 @@ export default {
       return {
         ...state,
         tagList: action.payload
+      };
+    },
+    dataSourceGet(state, action) {
+      const arr = [];
+      for (let tag of action.payload) {
+        arr.push(tag.tag_name);
+      }
+      return {
+        ...state,
+        dataSource: arr
       };
     }
   }

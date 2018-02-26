@@ -5,8 +5,8 @@ const sFormat = require("../utils").symbolFormat;
 const blogModel = require("../model/BlogModel");
 
 module.exports = {
-  async publish(title, short, content) {
-    const result = await blogModel.publish(title, short, content);
+  async publish(title, short, content, tags) {
+    const result = await blogModel.publish(title, short, content, tags);
     return result.affectedRows > 0 ? true : false;
   },
   async draft(title, short, content) {

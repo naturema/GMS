@@ -11,8 +11,14 @@ module.exports = {
   async publish(ctx) {
     const result = obj;
     log.info(format("发布博客", __filename));
-    const opt = resolve(ctx);
-    const res = await blogService.publish(opt.title, opt.short, opt.content);
+    const data = JSON.parse(ctx.request.body);
+    const opt = resolve(data.value);
+    const res = await blogService.publish(
+      opt.title,
+      opt.short,
+      opt.content,
+      data.tags
+    );
     if (res) {
       result.success = true;
     } else {
@@ -23,7 +29,7 @@ module.exports = {
   async draft(ctx) {
     const result = obj;
     log.info(format("保存博客", __filename));
-    const opt = resolve(ctx);
+    const opt = resolve(ctx.request.body);
     const res = await blogService.draft(opt.title, opt.short, opt.content);
     if (res) {
       result.success = true;
@@ -73,13 +79,13 @@ module.exports = {
 };
 /**
  * [resolve 处理博客数据]
- * @param  {[type]} ctx [description]
+ * @param  {[type]} value [description]
  * @return {[type]}     [description]
  */
-function resolve(ctx) {
-  const arr = ctx.request.body.split("\n", 2);
+function resolve(value) {
+  const arr = value.split("\n", 2);
   const title = arr[0];
-  const content = ctx.request.body.split(title + "\n")[1];
+  const content = value.split(title + "\n")[1];
   const short = content.split("<!--More-->\n")[0];
   let content1;
   content.split("<!--More-->\n")[1]

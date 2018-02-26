@@ -1,9 +1,10 @@
 import request from "../utils/request";
 
 export async function publishBlog(params) {
+  console.log(params);
   return request("/blog/publish", {
     method: "POST",
-    body: params
+    body: JSON.stringify(params)
   });
 }
 export async function draftBlog(params) {
