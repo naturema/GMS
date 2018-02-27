@@ -3,7 +3,9 @@ import {
   draftBlog,
   getDraft,
   delDraft,
-  getTags
+  getTags,
+  getBlog,
+  getBlogTotal
 } from "../services/blog";
 import { message } from "antd";
 import { routerRedux } from "dva/router";
@@ -18,7 +20,9 @@ export default {
     draftList: [],
     more: true,
     tagList: [],
-    dataSource: []
+    dataSource: [],
+    totalBlog: 50,
+    blogList: []
   },
 
   effects: {
@@ -74,6 +78,20 @@ export default {
       yield put({
         type: "dataSourceGet",
         payload: res.success ? res.message : []
+      });
+    },
+    *getBlog({ payload }, { call, put }) {
+      const res = yield call(getBlog, payload);
+      yield put({
+        type: "blogGet",
+        payload: res.success ? res.message : []
+      });
+    },
+    *getBlogTotal(_, { call, put }) {
+      const res = yield call(getBlogTotal);
+      yield put({
+        type: "blogTotalGet",
+        payload: res.success ? res.message : 0
       });
     }
   },
@@ -137,6 +155,18 @@ export default {
       return {
         ...state,
         dataSource: arr
+      };
+    },
+    blogGet(state, action) {
+      return {
+        ...state,
+        blogList: action.payload
+      };
+    },
+    blogTotalGet(state, action) {
+      return {
+        ...state,
+        totalBlog: action.payload
       };
     }
   }

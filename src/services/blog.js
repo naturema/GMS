@@ -27,3 +27,12 @@ export async function delDraft(params) {
 export async function getTags() {
   return request("/blog/getTags");
 }
+export async function getBlog(params) {
+  return request("/blog/getBlog", {
+    method: "POST",
+    body: params.toString()
+  });
+}
+export async function getBlogTotal() {
+  return request("/blog/getBlogTotal");
+}

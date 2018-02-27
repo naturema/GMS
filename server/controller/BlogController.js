@@ -51,6 +51,19 @@ module.exports = {
     }
     ctx.body = result;
   },
+  async getBlog(ctx) {
+    const result = obj;
+    const index = parseInt(ctx.request.body);
+    log.info(format(`获取博文第${index}页`, __filename));
+    const res = await blogService.getBlog(index, 5);
+    if (res) {
+      result.success = true;
+      result.message = res;
+    } else {
+      result.message = "获取博文失败";
+    }
+    ctx.body = result;
+  },
   async delDraft(ctx) {
     const result = obj;
     const id = ctx.request.body;
@@ -73,6 +86,17 @@ module.exports = {
       result.message = res;
     } else {
       result.message = "获取博文标签列表失败";
+    }
+    ctx.body = result;
+  },
+  async getBlogTotal(ctx) {
+    const result = obj;
+    const res = await blogService.getBlogTotal();
+    if (res) {
+      result.success = true;
+      result.message = res;
+    } else {
+      result.message = "获取博文总数失败";
     }
     ctx.body = result;
   }

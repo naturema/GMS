@@ -38,6 +38,10 @@ const menuData = [
       {
         name: "标签管理",
         path: "tag"
+      },
+      {
+        name: "博文管理",
+        path: "manage"
       }
     ]
   },

@@ -24,5 +24,13 @@ module.exports = {
   async getTags() {
     const result = await blogModel.getTags();
     return result;
+  },
+  async getBlog(page, size) {
+    const result = await blogModel.getBlog(page, size);
+    return result;
+  },
+  async getBlogTotal() {
+    const result = await blogModel.getBlogTotal();
+    return result[0].total_count;
   }
 };

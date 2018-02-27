@@ -22,7 +22,7 @@ module.exports = {
       blog_title: title,
       blog_desc: short,
       blog_content: content,
-      create_time: time.format(new Date()),
+      update_time: time.format(new Date()),
       status: 1, //1 发布 0 草稿
       tag_name_a: obj.namea,
       tag_name_b: obj.nameb,
@@ -66,6 +66,14 @@ module.exports = {
     const result = await db.select("blog_tag", "*");
     return result;
   },
+  async getBlog(page, size) {
+    const row = (page - 1) * 5;
+    const _sql = `
+         SELECT * FROM blog_main
+         WHERE status=1 limit ${row},${size}`;
+    const result = await db.query(_sql);
+    return result;
+  },
   async getTagColor(tag) {
     const _sql = `
       SELECT tag_color FROM blog_tag
@@ -73,5 +81,12 @@ module.exports = {
     `;
     const result = await db.query(_sql);
     return result[0].tag_color;
+  },
+  async getBlogTotal() {
+    const _sql = `
+      SELECT COUNT(*) AS total_count FROM blog_main
+      WHERE status = 1
+    `;
+    return db.query(_sql);
   }
 };
