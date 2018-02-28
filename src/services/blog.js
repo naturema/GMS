@@ -36,3 +36,24 @@ export async function getBlog(params) {
 export async function getBlogTotal() {
   return request("/blog/getBlogTotal");
 }
+export async function getTagColor() {
+  return request("/blog/getTagColor");
+}
+export async function editTag(params) {
+  return request("/blog/editTag", {
+    method: "POST",
+    body: JSON.stringify(params)
+  });
+}
+export async function newTag(params) {
+  return request("/blog/newTag", {
+    method: "POST",
+    body: JSON.stringify(params)
+  });
+}
+export async function delTag(params) {
+  return request("/blog/delTag", {
+    method: "POST",
+    body: JSON.stringify(params)
+  });
+}

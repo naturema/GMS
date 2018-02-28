@@ -22,6 +22,7 @@ module.exports = {
     if (res) {
       result.success = true;
     } else {
+      logger.error("发布失败");
       result.message = "发布失败";
     }
     ctx.body = result;
@@ -34,6 +35,7 @@ module.exports = {
     if (res) {
       result.success = true;
     } else {
+      logger.error("保存失败");
       result.message = "保存失败";
     }
     ctx.body = result;
@@ -47,6 +49,7 @@ module.exports = {
       result.success = true;
       result.message = res;
     } else {
+      logger.error("获取草稿失败");
       result.message = "获取草稿失败";
     }
     ctx.body = result;
@@ -60,6 +63,7 @@ module.exports = {
       result.success = true;
       result.message = res;
     } else {
+      logger.error("获取博文失败");
       result.message = "获取博文失败";
     }
     ctx.body = result;
@@ -73,6 +77,7 @@ module.exports = {
       result.success = true;
       result.message = id;
     } else {
+      logger.error("删除草稿失败");
       result.message = "删除草稿失败";
     }
     ctx.body = result;
@@ -85,6 +90,7 @@ module.exports = {
       result.success = true;
       result.message = res;
     } else {
+      logger.error("获取博文标签列表失败");
       result.message = "获取博文标签列表失败";
     }
     ctx.body = result;
@@ -96,7 +102,59 @@ module.exports = {
       result.success = true;
       result.message = res;
     } else {
+      logger.error("获取博文总数失败");
       result.message = "获取博文总数失败";
+    }
+    ctx.body = result;
+  },
+  async getTagColor(ctx) {
+    const result = obj;
+    const res = await blogService.getTagColor();
+    if (res) {
+      result.success = true;
+      result.message = res;
+    } else {
+      logger.error("获取可选标签颜色失败");
+      result.message = "获取可选标签颜色失败";
+    }
+    ctx.body = result;
+  },
+  async editTag(ctx) {
+    const result = obj;
+    const data = JSON.parse(ctx.request.body);
+    const res = await blogService.editTag(data);
+    if (res) {
+      result.success = true;
+      result.message = res;
+    } else {
+      logger.error("编辑标签失败");
+      result.message = "编辑标签失败";
+    }
+    ctx.body = result;
+  },
+  async newTag(ctx) {
+    const result = obj;
+    const data = JSON.parse(ctx.request.body);
+    const res = await blogService.newTag(data);
+    if (res) {
+      result.success = true;
+      result.message = res;
+    } else {
+      logger.error("新增标签失败");
+      result.message = "新增标签失败";
+    }
+    ctx.body = result;
+  },
+  async delTag(ctx) {
+    const result = obj;
+    const data = JSON.parse(ctx.request.body);
+    log.info(format(`删除id为${data.id}的标签`, __filename));
+    const res = await blogService.delTag(data);
+    if (res) {
+      result.success = true;
+    } else {
+      logger.error("删除标签失败");
+      result.message = "删除标签失败";
     }
     ctx.body = result;
   }

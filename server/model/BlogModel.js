@@ -88,5 +88,45 @@ module.exports = {
       WHERE status = 1
     `;
     return db.query(_sql);
+  },
+  async getTagColor() {
+    const _sql = `
+      select * from blog_tag_color
+      where status = 0
+    `;
+    return db.query(_sql);
+  },
+  async updateTagColor(color, status) {
+    const _sql = `
+      update blog_tag_color
+      set status = "${status}"
+      where color = "${color}"
+    `;
+    const result = await db.query(_sql);
+    return result;
+  },
+  async updateTag(data) {
+    const _sql = `
+      update blog_tag
+      set tag_name = "${data.value.name}",tag_color="${data.value.color}",
+      tag_desc="${data.value.desc}",update_time="${time.format(new Date())}"
+      where id = "${data.id}"
+    `;
+    const result = await db.query(_sql);
+    return result;
+  },
+  async insertTag(value) {
+    const option = {
+      tag_name: value.name,
+      tag_color: value.color,
+      tag_desc: value.desc,
+      update_time: time.format(new Date())
+    };
+    const result = await db.insertData("blog_tag", option);
+    return result;
+  },
+  async delTag(id) {
+    const result = await db.deleteDataById("blog_tag", id);
+    return result;
   }
 };

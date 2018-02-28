@@ -5,7 +5,11 @@ import {
   delDraft,
   getTags,
   getBlog,
-  getBlogTotal
+  getBlogTotal,
+  getTagColor,
+  editTag,
+  newTag,
+  delTag
 } from "../services/blog";
 import { message } from "antd";
 import { routerRedux } from "dva/router";
@@ -22,7 +26,8 @@ export default {
     tagList: [],
     dataSource: [],
     totalBlog: 50,
-    blogList: []
+    blogList: [],
+    colorData: []
   },
 
   effects: {
@@ -93,6 +98,22 @@ export default {
         type: "blogTotalGet",
         payload: res.success ? res.message : 0
       });
+    },
+    *getTagColor(_, { call, put }) {
+      const res = yield call(getTagColor);
+      yield put({
+        type: "tagColorGet",
+        payload: res.success ? res.message : []
+      });
+    },
+    *editTag({ payload }, { call, put }) {
+      yield call(editTag, payload);
+    },
+    *newTag({ payload }, { call, put }) {
+      yield call(newTag, payload);
+    },
+    *delTag({ payload }, { call, put }) {
+      yield call(delTag, payload);
     }
   },
 
@@ -167,6 +188,12 @@ export default {
       return {
         ...state,
         totalBlog: action.payload
+      };
+    },
+    tagColorGet(state, action) {
+      return {
+        ...state,
+        colorData: action.payload
       };
     }
   }

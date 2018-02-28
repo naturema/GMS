@@ -13,6 +13,10 @@ router.post("/blog/getBlog", blog.getBlog);
 router.post("/blog/delDraft", blog.delDraft);
 router.get("/blog/getTags", blog.getTags);
 router.get("/blog/getBlogTotal", blog.getBlogTotal);
+router.get("/blog/getTagColor", blog.getTagColor);
+router.post("/blog/editTag", blog.editTag);
+router.post("/blog/newTag", blog.newTag);
+router.post("/blog/delTag", blog.delTag);
 
 router.get("/api/project/notice", mock.notice);
 router.get("/api/currentUser", mock.user);

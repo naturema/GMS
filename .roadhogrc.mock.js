@@ -71,6 +71,21 @@ const proxy = {
     success: false,
     message: ""
   },
+  "GET /blog/getTagColor": {
+    success: true,
+    message: [
+      {
+        id: 1,
+        color: "#9F5E21",
+        remark: ""
+      },
+      {
+        id: 2,
+        color: "#e439ec",
+        remark: ""
+      }
+    ]
+  },
   "GET /api/project/notice": getNotice,
   "GET /api/activities": getActivities,
   "GET /api/rule": getRule,

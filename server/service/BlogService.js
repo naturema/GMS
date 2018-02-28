@@ -32,5 +32,29 @@ module.exports = {
   async getBlogTotal() {
     const result = await blogModel.getBlogTotal();
     return result[0].total_count;
+  },
+  async getTagColor() {
+    const result = await blogModel.getTagColor();
+    return result;
+  },
+  async editTag(data) {
+    const result = await blogModel.updateTag(data);
+    const result1 = await blogModel.updateTagColor(data.color, "0");
+    const result2 = await blogModel.updateTagColor(data.value.color, "1");
+    return result.affectedRows > 0 &&
+      result1.affectedRows > 0 &&
+      result2.affectedRows > 0
+      ? true
+      : false;
+  },
+  async newTag(data) {
+    const result = await blogModel.insertTag(data.value);
+    const result1 = await blogModel.updateTagColor(data.value.color, "1");
+    return result.affectedRows > 0 && result1.affectedRows > 0 ? true : false;
+  },
+  async delTag(data) {
+    const result = await blogModel.delTag(data.id);
+    const result1 = await blogModel.updateTagColor(data.color, "0");
+    return result.affectedRows > 0 && result1.affectedRows > 0 ? true : false;
   }
 };

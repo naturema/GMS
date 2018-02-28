@@ -23,7 +23,7 @@ const menuData = [
   },
   {
     name: "博客管理",
-    icon: "user",
+    icon: "book",
     path: "blog",
     children: [
       {
