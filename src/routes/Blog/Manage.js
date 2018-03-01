@@ -8,13 +8,14 @@ import {
   Row,
   Col,
   Input,
-  Progress,
   Button,
   Icon,
   Dropdown,
   Menu,
   Avatar,
-  Tag
+  Tag,
+  Popconfirm,
+  message
 } from "antd";
 
 import PageHeaderLayout from "../../layouts/PageHeaderLayout";
@@ -40,6 +41,34 @@ export default class BasicList extends PureComponent {
       type: "blog/getBlogTotal"
     });
   }
+  editBlog = item => {
+    const self = this;
+    console.log(item.item);
+    self.props.dispatch({
+      type: "blog/toEditBlog",
+      payload: {
+        value: "# " + item.item.blog_title + "\n" + item.item.blog_content,
+        id: item.item.id
+      }
+    });
+  };
+  delBlog = item => {
+    this.props
+      .dispatch({
+        type: "blog/delBlog",
+        payload: item.item.id
+      })
+      .then(() => {
+        message.success("删除成功");
+        this.props.dispatch({
+          type: "blog/getBlog",
+          payload: this.state.current
+        });
+        this.props.dispatch({
+          type: "blog/getBlogTotal"
+        });
+      });
+  };
   render() {
     const { blog: { blogList, totalBlog }, loading } = this.props;
 
@@ -124,7 +153,17 @@ export default class BasicList extends PureComponent {
               renderItem={item => (
                 <List.Item
                   key={item.id}
-                  actions={[<a>编辑</a>, <a>删除</a>]}
+                  actions={[
+                    <a onClick={this.editBlog.bind(this, { item })}>编辑</a>,
+                    <Popconfirm
+                      title="确认删除此博文？"
+                      onConfirm={this.delBlog.bind(this, { item })}
+                      okText="是"
+                      cancelText="否"
+                    >
+                      <a href="#">删除</a>
+                    </Popconfirm>
+                  ]}
                   extra={<div className={styles.listItemExtra} />}
                 >
                   <List.Item.Meta

@@ -9,7 +9,9 @@ import {
   getTagColor,
   editTag,
   newTag,
-  delTag
+  delTag,
+  editBlog,
+  delBlog
 } from "../services/blog";
 import { message } from "antd";
 import { routerRedux } from "dva/router";
@@ -27,7 +29,8 @@ export default {
     dataSource: [],
     totalBlog: 50,
     blogList: [],
-    colorData: []
+    colorData: [],
+    editBlogId: ""
   },
 
   effects: {
@@ -35,6 +38,13 @@ export default {
       const response = yield call(publishBlog, payload);
       yield put({
         type: "public",
+        payload: response.success ? "发布成功" : "发布失败"
+      });
+    },
+    *editBlog({ payload }, { call, put }) {
+      const response = yield call(editBlog, payload);
+      yield put({
+        type: "blogEdit",
         payload: response.success ? "发布成功" : "发布失败"
       });
     },
@@ -114,6 +124,16 @@ export default {
     },
     *delTag({ payload }, { call, put }) {
       yield call(delTag, payload);
+    },
+    *toEditBlog({ payload }, { call, put }) {
+      yield put({
+        type: "editBlogTo",
+        payload: payload
+      });
+      yield put(routerRedux.push("/blog/new"));
+    },
+    *delBlog({ payload }, { call, put }) {
+      yield call(delBlog, payload);
     }
   },
 
@@ -122,6 +142,13 @@ export default {
       return {
         ...state,
         isPublish: action.payload
+      };
+    },
+    blogEdit(state, action) {
+      return {
+        ...state,
+        isPublish: action.payload,
+        editBlogId: ""
       };
     },
     draft(state, action) {
@@ -144,7 +171,8 @@ export default {
         ...state,
         draftList: [],
         value: "## Hello Gatinul , write now ~ \n > 20170613",
-        more: true
+        more: true,
+        editBlogId: ""
       };
     },
     dratfEdit(state, action) {
@@ -194,6 +222,14 @@ export default {
       return {
         ...state,
         colorData: action.payload
+      };
+    },
+    editBlogTo(state, action) {
+      console.log(action);
+      return {
+        ...state,
+        value: action.payload.value,
+        editBlogId: action.payload.id
       };
     }
   }

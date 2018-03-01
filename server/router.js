@@ -7,6 +7,7 @@ const router = new Router();
 
 router.get("/", main.index);
 router.post("/blog/publish", blog.publish);
+router.post("/blog/editBlog", blog.editBlog);
 router.post("/blog/draft", blog.draft);
 router.post("/blog/getDraft", blog.getDraft);
 router.post("/blog/getBlog", blog.getBlog);
@@ -17,6 +18,7 @@ router.get("/blog/getTagColor", blog.getTagColor);
 router.post("/blog/editTag", blog.editTag);
 router.post("/blog/newTag", blog.newTag);
 router.post("/blog/delTag", blog.delTag);
+router.post("/blog/delBlog", blog.delBlog);
 
 router.get("/api/project/notice", mock.notice);
 router.get("/api/currentUser", mock.user);

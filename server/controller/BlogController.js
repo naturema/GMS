@@ -1,3 +1,5 @@
+// 生产环境使用pm2
+
 const log = require("../config").common;
 const logger = require("../config").error;
 const format = require("../utils").format;
@@ -18,6 +20,26 @@ module.exports = {
       opt.short,
       opt.content,
       data.tags
+    );
+    if (res) {
+      result.success = true;
+    } else {
+      logger.error("发布失败");
+      result.message = "发布失败";
+    }
+    ctx.body = result;
+  },
+  async editBlog(ctx) {
+    const result = obj;
+    log.info(format("发布博客", __filename));
+    const data = JSON.parse(ctx.request.body);
+    const opt = resolve(data.value);
+    const res = await blogService.editBlog(
+      opt.title,
+      opt.short,
+      opt.content,
+      data.tags,
+      data.id
     );
     if (res) {
       result.success = true;
@@ -155,6 +177,19 @@ module.exports = {
     } else {
       logger.error("删除标签失败");
       result.message = "删除标签失败";
+    }
+    ctx.body = result;
+  },
+  async delBlog(ctx) {
+    const result = obj;
+    const id = ctx.request.body;
+    log.info(format(`删除id为${id}的博文`, __filename));
+    const res = await blogService.delBlog(id);
+    if (res) {
+      result.success = true;
+    } else {
+      logger.error("删除博文失败");
+      result.message = "删除博文失败";
     }
     ctx.body = result;
   }

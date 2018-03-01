@@ -34,7 +34,48 @@ module.exports = {
       const commit = {
         commit_name: title,
         commit_desc: short,
-        commit_time: time.format(new Date(), "YYYY/MM/DD")
+        commit_time: time.format(new Date(), "YYYY/MM/DD"),
+        commit_type: "新增"
+      };
+      db.insertData("blog_commit", commit);
+    }
+    return result;
+  },
+  async editBlog(title, short, content, tags, id) {
+    const obj = {};
+    if (tags.length > 1) {
+      obj.namea = tags[0];
+      obj.nameb = tags[1];
+      const colora = await this.getTagColor(tags[0]);
+      const colorb = await this.getTagColor(tags[1]);
+      obj.colora = colora;
+      obj.colorb = colorb;
+    } else {
+      obj.namea = tags[0];
+      obj.nameb = "";
+      const colora = await this.getTagColor(tags[0]);
+      obj.colora = colora;
+      obj.colorb = "";
+    }
+    const option = {
+      blog_title: title,
+      blog_desc: short,
+      blog_content: content,
+      update_time: time.format(new Date()),
+      status: 1, //1 发布 0 草稿
+      tag_name_a: obj.namea,
+      tag_name_b: obj.nameb,
+      tag_color_a: obj.colora,
+      tag_color_b: obj.colorb
+    };
+    console.log(option);
+    const result = await db.updateData("blog_main", option, id);
+    if (result.affectedRows > 0) {
+      const commit = {
+        commit_name: title,
+        commit_desc: short,
+        commit_time: time.format(new Date(), "YYYY/MM/DD"),
+        commit_type: "修改"
       };
       db.insertData("blog_commit", commit);
     }
@@ -89,7 +130,7 @@ module.exports = {
     `;
     return db.query(_sql);
   },
-  async getTagColor() {
+  async getTagColorAll() {
     const _sql = `
       select * from blog_tag_color
       where status = 0
@@ -127,6 +168,10 @@ module.exports = {
   },
   async delTag(id) {
     const result = await db.deleteDataById("blog_tag", id);
+    return result;
+  },
+  async delBlog(id) {
+    const result = await db.deleteDataById("blog_main", id);
     return result;
   }
 };

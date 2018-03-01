@@ -13,6 +13,7 @@ import {
   AutoComplete,
   Tag
 } from "antd";
+const confirm = Modal.confirm;
 const { TextArea } = Input;
 import marked from "marked";
 import highlight from "highlight.js";
@@ -68,7 +69,13 @@ export default class New extends PureComponent {
     tags: [],
     tagValue: ""
   };
-
+  componentWillUnmount() {
+    const self = this;
+    const { dispatch, blog } = self.props;
+    dispatch({
+      type: "blog/clearDraft"
+    });
+  }
   componentWillMount() {
     this.state.value = this.props.blog.value;
   }
@@ -112,30 +119,68 @@ export default class New extends PureComponent {
     }
   };
   handleOk = () => {
-    this.setState({
+    const self = this;
+    self.setState({
       confirmLoading: true
     });
-    this.props
-      .dispatch({
-        type: "blog/publishBlog",
-        payload: {
-          value: this.state.value,
-          tags: this.state.tags
-        }
-      })
-      .then(() => {
-        if (this.props.blog.isPublish == "发布成功") {
-          this.setState({
-            value: "",
+    if (self.props.blog.editBlogId) {
+      confirm({
+        title: "发布确认",
+        content: "确认发布编辑后博文，将覆盖原有内容?",
+        onOk() {
+          self.props
+            .dispatch({
+              type: "blog/editBlog",
+              payload: {
+                value: self.state.value,
+                tags: self.state.tags,
+                id: self.props.blog.editBlogId
+              }
+            })
+            .then(() => {
+              if (self.props.blog.isPublish == "发布成功") {
+                self.setState({
+                  value: "",
+                  visible: false,
+                  confirmLoading: false
+                });
+                ReactDOM.findDOMNode(self.refs.textarea).value = "";
+                message.success("提交成功");
+              } else {
+                message.error("提交失败，请重试");
+              }
+            });
+        },
+        onCancel() {
+          self.setState({
             visible: false,
             confirmLoading: false
           });
-          ReactDOM.findDOMNode(this.refs.textarea).value = "";
-          message.success("提交成功");
-        } else {
-          message.error("提交失败，请重试");
         }
       });
+    } else {
+      self.props
+        .dispatch({
+          type: "blog/publishBlog",
+          payload: {
+            value: self.state.value,
+            tags: self.state.tags
+          }
+        })
+        .then(() => {
+          if (self.props.blog.isPublish == "发布成功") {
+            self.setState({
+              value: "",
+              visible: false,
+              confirmLoading: false
+            });
+            ReactDOM.findDOMNode(self.refs.textarea).value = "";
+            message.success("提交成功");
+          } else {
+            message.error("提交失败，请重试");
+          }
+        });
+    }
   };
   handleCancel = () => {
     this.setState({

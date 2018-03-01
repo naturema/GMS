@@ -9,6 +9,10 @@ module.exports = {
     const result = await blogModel.publish(title, short, content, tags);
     return result.affectedRows > 0 ? true : false;
   },
+  async editBlog(title, short, content, tags, id) {
+    const result = await blogModel.editBlog(title, short, content, tags, id);
+    return result.affectedRows > 0 ? true : false;
+  },
   async draft(title, short, content) {
     const result = await blogModel.draft(title, short, content);
     return result.affectedRows > 0 ? true : false;
@@ -34,7 +38,7 @@ module.exports = {
     return result[0].total_count;
   },
   async getTagColor() {
-    const result = await blogModel.getTagColor();
+    const result = await blogModel.getTagColorAll();
     return result;
   },
   async editTag(data) {
@@ -48,7 +52,7 @@ module.exports = {
       : false;
   },
   async newTag(data) {
-    const result = await blogModel.insertTag(data.value);
+    const result = await blogModel.insertTag(data.valune);
     const result1 = await blogModel.updateTagColor(data.value.color, "1");
     return result.affectedRows > 0 && result1.affectedRows > 0 ? true : false;
   },
@@ -56,5 +60,9 @@ module.exports = {
     const result = await blogModel.delTag(data.id);
     const result1 = await blogModel.updateTagColor(data.color, "0");
     return result.affectedRows > 0 && result1.affectedRows > 0 ? true : false;
+  },
+  async delBlog(id) {
+    const result = await blogModel.delBlog(id);
+    return result.affectedRows > 0 ? true : false;
   }
 };

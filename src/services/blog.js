@@ -6,6 +6,12 @@ export async function publishBlog(params) {
     body: JSON.stringify(params)
   });
 }
+export async function editBlog(params) {
+  return request("/blog/editBlog", {
+    method: "POST",
+    body: JSON.stringify(params)
+  });
+}
 export async function draftBlog(params) {
   return request("/blog/draft", {
     method: "POST",
@@ -55,5 +61,11 @@ export async function delTag(params) {
   return request("/blog/delTag", {
     method: "POST",
     body: JSON.stringify(params)
+  });
+}
+export async function delBlog(params) {
+  return request("/blog/delBlog", {
+    method: "POST",
+    body: params.toString()
   });
 }
