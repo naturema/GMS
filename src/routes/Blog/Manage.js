@@ -47,7 +47,14 @@ export default class BasicList extends PureComponent {
     self.props.dispatch({
       type: "blog/toEditBlog",
       payload: {
-        value: "# " + item.item.blog_title + "\n" + item.item.blog_content,
+        value:
+          "# " +
+          item.item.blog_title +
+          "\n" +
+          item.item.blog_desc +
+          "\n" +
+          "<!--More-->\n" +
+          item.item.blog_content.slice(item.item.blog_desc.length),
         id: item.item.id
       }
     });

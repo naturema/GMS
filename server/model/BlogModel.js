@@ -68,7 +68,6 @@ module.exports = {
       tag_color_a: obj.colora,
       tag_color_b: obj.colorb
     };
-    console.log(option);
     const result = await db.updateData("blog_main", option, id);
     if (result.affectedRows > 0) {
       const commit = {

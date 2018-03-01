@@ -78,7 +78,14 @@ export default class Draft extends PureComponent {
     const self = this;
     self.props.dispatch({
       type: "blog/editDraft",
-      payload: "# " + item.item.blog_title + "\n" + item.item.blog_content
+      payload:
+        "# " +
+        item.item.blog_title +
+        "\n" +
+        item.item.blog_desc +
+        "\n" +
+        "<!--More-->\n" +
+        item.item.blog_content.slice(item.item.blog_desc.length)
     });
   };
   render() {
