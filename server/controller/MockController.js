@@ -422,5 +422,9 @@ module.exports = {
       salesTypeDataOffline,
       radarData
     };
+  },
+  async getAuthority(ctx) {
+    console.log(ctx.request.body);
+    ctx.body = ["admin"];
   }
 };

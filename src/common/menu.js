@@ -1,5 +1,6 @@
 import { isUrl } from "../utils/utils";
-
+import request from "../utils/request";
+import axios from "axios";
 const menuData = [
   {
     name: "管理中心",
@@ -41,7 +42,8 @@ const menuData = [
       },
       {
         name: "博文管理",
-        path: "manage"
+        path: "manage",
+        authority: getPower("dashboard/workplace")
       }
     ]
   },
@@ -184,7 +186,16 @@ const menuData = [
     target: "_blank"
   }
 ];
-
+function getPower(path) {
+  axios
+    .post("api/getAuthority", {
+      path
+    })
+    .then(res => {
+      console.log(res);
+    });
+  return ["admin"];
+}
 function formatter(data, parentPath = "", parentAuthority) {
   return data.map(item => {
     let { path } = item;

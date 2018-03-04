@@ -2,6 +2,7 @@ const Router = require("koa-router");
 const main = require("./controller/MainController");
 const blog = require("./controller/BlogController");
 const mock = require("./controller/MockController");
+const api = require("./controller/ApiController");
 
 const router = new Router();
 
@@ -19,6 +20,8 @@ router.post("/blog/editTag", blog.editTag);
 router.post("/blog/newTag", blog.newTag);
 router.post("/blog/delTag", blog.delTag);
 router.post("/blog/delBlog", blog.delBlog);
+router.post("/api/getAuthority", mock.getAuthority);
+router.post("/api/login/account", api.login);
 
 router.get("/api/project/notice", mock.notice);
 router.get("/api/currentUser", mock.user);
