@@ -1,12 +1,27 @@
+const log = require("../config").common;
+const logger = require("../config").error;
+const format = require("../utils").format;
+const sFormat = require("../utils").symbolFormat;
+const apiService = require("../service/ApiService");
+
 module.exports = {
   async login(ctx) {
-    console.log(ctx.request.body);
     const data = JSON.parse(ctx.request.body);
     const { userName, password, type } = data;
-    ctx.body = {
-      status: "ok",
+    const result = {
+      status: "error",
       type,
-      currentAuthority: userName
+      currentAuthority: "guess"
     };
+    const res = await apiService.canLogin(userName, password);
+    if (res) {
+      (result.status = "ok"), (result.currentAuthority = userName);
+    }
+    ctx.body = result;
+  },
+  async getAuthority(ctx) {
+    const menu = ctx.request.body.path;
+    const result = await apiService.getAuthority(menu);
+    ctx.body = result;
   }
 };

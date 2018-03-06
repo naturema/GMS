@@ -1,6 +1,7 @@
 import { isUrl } from "../utils/utils";
 import request from "../utils/request";
 import axios from "axios";
+// 应该把整个 menuData 动态获取 即可 绑定到BasicLayouts 里
 const menuData = [
   {
     name: "管理中心",
@@ -26,24 +27,27 @@ const menuData = [
     name: "博客管理",
     icon: "book",
     path: "blog",
+    authority: ["admin", "gatinul", "rebecca"],
     children: [
       {
         name: "新建博客",
-        path: "new"
-        // hideInMenu: true,
+        path: "new",
+        authority: ["admin", "gatinul", "rebecca"]
       },
       {
         name: "草稿箱",
-        path: "draft"
+        path: "draft",
+        authority: ["admin", "gatinul", "rebecca"]
       },
       {
         name: "标签管理",
-        path: "tag"
+        path: "tag",
+        authority: ["admin", "gatinul"]
       },
       {
         name: "博文管理",
         path: "manage",
-        authority: getPower("dashboard/workplace")
+        authority: ["admin", "gatinul"]
       }
     ]
   },
@@ -186,15 +190,24 @@ const menuData = [
     target: "_blank"
   }
 ];
-function getPower(path) {
-  axios
-    .post("api/getAuthority", {
-      path
-    })
-    .then(res => {
-      console.log(res);
-    });
-  return ["admin"];
+async function getPower(path) {
+  const arr = await yibu(path);
+  return arr;
+}
+function yibu(path) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post("api/getAuthority", {
+        path
+      })
+      .then(res => {
+        const arr = [];
+        for (let i = 0; i < res.data.length; i++) {
+          arr.push(res.data[i].user_name);
+        }
+        resolve(arr);
+      });
+  });
 }
 function formatter(data, parentPath = "", parentAuthority) {
   return data.map(item => {

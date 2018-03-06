@@ -20,7 +20,7 @@ router.post("/blog/editTag", blog.editTag);
 router.post("/blog/newTag", blog.newTag);
 router.post("/blog/delTag", blog.delTag);
 router.post("/blog/delBlog", blog.delBlog);
-router.post("/api/getAuthority", mock.getAuthority);
+router.post("/api/getAuthority", api.getAuthority);
 router.post("/api/login/account", api.login);
 
 router.get("/api/project/notice", mock.notice);

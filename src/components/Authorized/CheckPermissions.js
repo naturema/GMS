@@ -1,9 +1,14 @@
-import React from 'react';
-import PromiseRender from './PromiseRender';
-import { CURRENT } from './index';
+import React from "react";
+import PromiseRender from "./PromiseRender";
+import { message } from "antd";
+import { CURRENT } from "./index";
 
 function isPromise(obj) {
-  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+  return (
+    !!obj &&
+    (typeof obj === "object" || typeof obj === "function") &&
+    typeof obj.then === "function"
+  );
 }
 
 /**
@@ -29,7 +34,7 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
   }
 
   // string 处理
-  if (typeof authority === 'string') {
+  if (typeof authority === "string") {
     if (authority === currentAuthority) {
       return target;
     }
@@ -42,7 +47,7 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
   }
 
   // Function 处理
-  if (typeof authority === 'function') {
+  if (typeof authority === "function") {
     try {
       const bool = authority(currentAuthority);
       if (bool) {
@@ -53,7 +58,7 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
       throw error;
     }
   }
-  throw new Error('unsupported parameters');
+  throw new Error("unsupported parameters");
 };
 
 export { checkPermissions };
