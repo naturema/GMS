@@ -57,3 +57,7 @@ More instruction at [documentation]().
 ## Compatibility
 
 Modern browsers and IE11.
+
+## Todo
+
+1. Get SiderMenu from server(param `authority`) [relative issue](https://github.com/ant-design/ant-design-pro/issues/751)

@@ -57,3 +57,7 @@ $ npm start         # 访问 http://localhost:3001
 ## 兼容性
 
 现代浏览器及 IE11。
+
+## 待办
+
+1. 左侧菜单的动态加载（主要是权限 authority 参数的动态获取）[相关 issue](https://github.com/ant-design/ant-design-pro/issues/751)
