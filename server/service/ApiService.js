@@ -10,8 +10,11 @@ module.exports = {
     return result.length > 0 ? true : false;
   },
   async getAuthority(menu) {
-    console.log(menu);
     const result = await apiModel.getAuthority(menu);
     return result ? result : [];
+  },
+  async getUserInfo(name) {
+    const result = await apiModel.getUserInfo(name);
+    return result;
   }
 };

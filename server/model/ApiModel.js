@@ -15,5 +15,11 @@ module.exports = {
     `;
     const result = await db.query(_sql);
     return result;
+  },
+  async getUserInfo(name) {
+    const _sql = `select * from gms_user_login
+    where user_name = "${name}"`;
+    const result = await db.query(_sql);
+    return result[0];
   }
 };

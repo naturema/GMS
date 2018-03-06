@@ -22,6 +22,7 @@ router.post("/blog/delTag", blog.delTag);
 router.post("/blog/delBlog", blog.delBlog);
 router.post("/api/getAuthority", api.getAuthority);
 router.post("/api/login/account", api.login);
+router.post("/api/currentUser", api.user);
 
 router.get("/api/project/notice", mock.notice);
 router.get("/api/currentUser", mock.user);

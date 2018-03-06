@@ -23,5 +23,15 @@ module.exports = {
     const menu = ctx.request.body.path;
     const result = await apiService.getAuthority(menu);
     ctx.body = result;
+  },
+  async user(ctx) {
+    const name = ctx.request.body;
+    const result = await apiService.getUserInfo(name);
+    ctx.body = {
+      name,
+      avatar: result.avatar_img,
+      userid: result.id,
+      notifyCount: parseInt(Math.random() * 16, 10)
+    };
   }
 };

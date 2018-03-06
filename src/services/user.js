@@ -1,9 +1,12 @@
-import request from '../utils/request';
+import request from "../utils/request";
 
 export async function query() {
-  return request('/api/users');
+  return request("/api/users");
 }
 
 export async function queryCurrent() {
-  return request('/api/currentUser');
+  return request("/api/currentUser", {
+    method: "POST",
+    body: localStorage.getItem("antd-pro-authority")
+  });
 }
