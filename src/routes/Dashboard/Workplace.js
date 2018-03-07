@@ -223,7 +223,7 @@ export default class Workplace extends PureComponent {
             {new Date().getMonth() + 1}月{new Date().getDate()}日 &nbsp; Hello
             Gatinul
           </div>
-          <div>前端开发 | No safe wading in an unknown water.</div>
+          <div>前端开发 | 6 + 3 = 9 but so does 5 + 4.</div>
         </div>
       </div>
     );

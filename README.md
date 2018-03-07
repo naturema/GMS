@@ -6,7 +6,7 @@ English | [简体中文](./README.zh-CN.md)
 
 A manage system build by [antd-pro](http://pro.ant.design) and koa.
 
-![](https://gatinul.org/public/img/gms.png)
+![](https://gatinul.org/public/img/gms1.png)
 
 ## Features
 
