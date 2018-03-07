@@ -147,39 +147,39 @@ for (let i = 0; i < 20; i += 1) {
 
 const radarOriginData = [
   {
-    name: "个人",
-    ref: 10,
-    koubei: 8,
-    output: 4,
-    contribute: 5,
-    hot: 7
+    name: "月度",
+    clothes: 300,
+    life: 320,
+    foods: 800,
+    activity: 300,
+    other: 500
   },
   {
-    name: "团队",
-    ref: 3,
-    koubei: 9,
-    output: 6,
-    contribute: 3,
-    hot: 1
+    name: "季度",
+    clothes: 1000,
+    life: 900,
+    foods: 2100,
+    activity: 1150,
+    other: 1750
   },
   {
-    name: "部门",
-    ref: 4,
-    koubei: 1,
-    output: 6,
-    contribute: 5,
-    hot: 7
+    name: "年度",
+    clothes: 4200,
+    life: 4100,
+    foods: 8000,
+    activity: 4400,
+    other: 7200
   }
 ];
 
 //
 const radarData = [];
 const radarTitleMap = {
-  ref: "引用",
-  koubei: "口碑",
-  output: "产量",
-  contribute: "贡献",
-  hot: "热度"
+  clothes: "服饰",
+  life: "日常",
+  foods: "美食",
+  activity: "娱乐",
+  other: "其它"
 };
 radarOriginData.forEach(item => {
   Object.keys(item).forEach(key => {
@@ -426,5 +426,30 @@ module.exports = {
   async getAuthority(ctx) {
     console.log(ctx.request.body);
     ctx.body = ["admin"];
+  },
+  async getRemainderWeek(ctx) {
+    ctx.body = [
+      {
+        id: "1",
+        content: "早检",
+        date: "2018-3-8 06:30:00",
+        level: 4,
+        color: "#E4393C"
+      },
+      {
+        id: "2",
+        content: "大数据展示的ppt",
+        date: "2018-3-9 17:30:00",
+        level: 3,
+        color: "#EE7942"
+      },
+      {
+        id: "3",
+        content: "打篮球",
+        date: "2018-3-10 11:30:00",
+        level: 1,
+        color: "#7FFF00"
+      }
+    ];
   }
 };

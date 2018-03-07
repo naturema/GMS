@@ -12,7 +12,7 @@ import EditableLinkGroup from "../../components/EditableLinkGroup";
 import { Radar } from "../../components/Charts";
 
 import styles from "./Workplace.less";
-// 代码中写死
+// 代码中写死 （以后也可以根据热度数据库读取）
 const links = [
   {
     title: "写博客",
@@ -84,73 +84,24 @@ const members = [
   chart,
   task,
   remainderLoading: loading.effects["remainder/getRemainderWeek"],
-  todoLoading: loading.effects["task/getTodo"]
+  workTodoLoading: loading.effects["task/getWorkTodo"],
+  myTodoLoading: loading.effects["task/getMyTodo"]
 }))
 export default class Workplace extends PureComponent {
-  state = {
-    workTask: [
-      {
-        id: "1",
-        title: "扫码节活动链接",
-        desc:
-          "在沃扫码首页添加“扫码节”活动图标及banner图，链接到扫码节活动页面（电商提供）"
-      },
-      {
-        id: "2",
-        title: "打点定位",
-        desc:
-          "在页面增加手机定位功能，对于开启定位的用户落下定位的数据，以便后续的数据分析"
-      },
-      {
-        id: "3",
-        title: "扫码节活动链接",
-        desc:
-          "在沃扫码首页添加“扫码节”活动图标及banner图，链接到扫码节活动页面（电商提供）"
-      },
-      {
-        id: "4",
-        title: "打点定位",
-        desc:
-          "在页面增加手机定位功能，对于开启定位的用户落下定位的数据，以便后续的数据分析"
-      },
-      {
-        id: "5",
-        title: "打点定位",
-        desc: "在页面增加手机定位功能，以便后续的数据分析"
-      },
-      {
-        id: "6",
-        title: "打点定位",
-        desc: "在页面增加手机定位功能，以便后续的数据分析"
-      }
-    ],
-    myTask: [
-      {
-        id: "1",
-        title: "左侧菜单栏动态获取",
-        desc: "完成GMS左侧菜单栏的动态获取"
-      },
-      {
-        id: "2",
-        title: "Node openCV",
-        desc: "使用nodejs做计算机视觉处理，在node中应用openCV"
-      },
-      {
-        id: "3",
-        title: "Cycle.js深入",
-        desc: "使用Cycle.js构建一个响应式应用"
-      },
-      {
-        id: "4",
-        title: "每日健身",
-        desc: "每日完成一次健身，时长15-20分钟"
-      }
-    ]
-  };
+  state = {};
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "task/getTodoTask"
+      type: "task/getWorkTodo",
+      payload: {
+        timeSlot: "week"
+      }
+    });
+    dispatch({
+      type: "task/getMyTodo",
+      payload: {
+        timeSlot: "week"
+      }
     });
     dispatch({
       type: "remainder/getRemainderWeek"
@@ -195,7 +146,7 @@ export default class Workplace extends PureComponent {
             }
             description={
               <span className={styles.datetime} title={item.date}>
-                {item.date} |{" "}
+                {item.date} &nbsp;{moment(item.date).format("dddd")}|{" "}
                 {moment(item.date, "YYYY/MM/DD hh:mm:ss").fromNow()}
               </span>
             }
@@ -207,8 +158,9 @@ export default class Workplace extends PureComponent {
 
   render() {
     const {
-      task: { todoTask },
-      todoLoading,
+      task: { workTodo, myTodo },
+      workTodoLoading,
+      myTodoLoading,
       remainderLoading,
       chart: { radarData }
     } = this.props;
@@ -257,7 +209,6 @@ export default class Workplace extends PureComponent {
               title="待办任务"
               bordered={false}
               extra={<Link to="/">全部任务</Link>}
-              loading={todoLoading}
               bodyStyle={{ padding: 0 }}
             >
               <Tabs
@@ -266,16 +217,17 @@ export default class Workplace extends PureComponent {
               >
                 <TabPane className={styles.tabPane} tab="工作" key="1">
                   <List
-                    dataSource={this.state.workTask}
+                    loading={workTodoLoading}
+                    dataSource={workTodo}
                     renderItem={(item, index) => (
                       <List.Item key={item.id} className={styles.taskList}>
                         <List.Item.Meta
                           title={
                             <a href="https://ant.design">
-                              {index + 1}.{item.title}
+                              {index + 1}.{item.task_title}
                             </a>
                           }
-                          description={item.desc}
+                          description={item.task_desc}
                         />
                         <div>
                           <a>完成</a>
@@ -286,16 +238,17 @@ export default class Workplace extends PureComponent {
                 </TabPane>
                 <TabPane className={styles.tabPane} tab="个人" key="2">
                   <List
-                    dataSource={this.state.myTask}
+                    loading={myTodoLoading}
+                    dataSource={myTodo}
                     renderItem={(item, index) => (
                       <List.Item key={item.id}>
                         <List.Item.Meta
                           title={
                             <a href="https://ant.design">
-                              {index + 1}.{item.title}
+                              {index + 1}.{item.task_title}
                             </a>
                           }
-                          description={item.desc}
+                          description={item.task_desc}
                         />
                         <div>
                           <a>完成</a>
