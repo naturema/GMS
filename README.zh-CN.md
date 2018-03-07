@@ -6,7 +6,7 @@
 
 一个用[antd-pro](http://pro.ant.design)以及 Koa 搭建的个人管理系统。
 
-![](https://gw.alipayobjects.com/zos/rmsportal/xEdBqwSzvoSapmnSnYjU.png)
+![](https://gatinul.org/public/img/gms.png)
 
 ## 特性
 

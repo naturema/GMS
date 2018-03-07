@@ -87,8 +87,10 @@ export const getRouterData = app => {
       )
     },
     "/dashboard/workplace": {
-      component: dynamicWrapper(app, ["project", "activities", "chart"], () =>
-        import("../routes/Dashboard/Workplace")
+      component: dynamicWrapper(
+        app,
+        ["remainder", "activities", "chart", "task"],
+        () => import("../routes/Dashboard/Workplace")
       )
       // hideInBreadcrumb: true,
       // name: '工作台',

@@ -4,26 +4,27 @@ import moment from "moment";
 import { connect } from "dva";
 import numeral from "numeral";
 import { Link } from "dva/router";
-import { Row, Col, Card, List, Avatar } from "antd";
+import { Tabs, Row, Col, Card, List, Avatar } from "antd";
+const TabPane = Tabs.TabPane;
 
 import PageHeaderLayout from "../../layouts/PageHeaderLayout";
 import EditableLinkGroup from "../../components/EditableLinkGroup";
 import { Radar } from "../../components/Charts";
 
 import styles from "./Workplace.less";
-
+// 代码中写死
 const links = [
   {
-    title: "操作一",
-    href: ""
+    title: "写博客",
+    href: "../../blog/new"
   },
   {
-    title: "操作二",
-    href: ""
+    title: "改博文",
+    href: "../../blog/manage"
   },
   {
-    title: "操作三",
-    href: ""
+    title: "草稿箱",
+    href: "../../blog/draft"
   },
   {
     title: "操作四",
@@ -38,55 +39,121 @@ const links = [
     href: ""
   }
 ];
-
+// 数据表中读取
 const members = [
   {
-    id: "members-1",
-    title: "科学搬砖组",
+    id: "1",
+    title: "沃行",
     logo: "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png",
     link: ""
   },
   {
-    id: "members-2",
-    title: "程序员日常",
+    id: "2",
+    title: "博客系统",
     logo: "https://gw.alipayobjects.com/zos/rmsportal/cnrhVkzwxjPwAaCfPbdc.png",
     link: ""
   },
   {
-    id: "members-3",
-    title: "设计天团",
+    id: "3",
+    title: "智能运维",
     logo: "https://gw.alipayobjects.com/zos/rmsportal/gaOngJwsRYRaVAuXXcmB.png",
     link: ""
   },
   {
-    id: "members-4",
-    title: "中二少女团",
+    id: "4",
+    title: "小程序",
     logo: "https://gw.alipayobjects.com/zos/rmsportal/ubnKSIfAJTxIgXOKlciN.png",
     link: ""
   },
   {
-    id: "members-5",
-    title: "骗你学计算机",
+    id: "5",
+    title: "快速开发",
     logo: "https://gw.alipayobjects.com/zos/rmsportal/WhxKECPNujWoWEFNdnJE.png",
+    link: ""
+  },
+  {
+    id: "6",
+    title: "沃扫码",
+    logo: "https://gw.alipayobjects.com/zos/rmsportal/ubnKSIfAJTxIgXOKlciN.png",
     link: ""
   }
 ];
 
-@connect(({ project, activities, chart, loading }) => ({
-  project,
-  activities,
+@connect(({ remainder, task, chart, loading }) => ({
+  remainder,
   chart,
-  projectLoading: loading.effects["project/fetchNotice"],
-  activitiesLoading: loading.effects["activities/fetchList"]
+  task,
+  remainderLoading: loading.effects["remainder/getRemainderWeek"],
+  todoLoading: loading.effects["task/getTodo"]
 }))
 export default class Workplace extends PureComponent {
+  state = {
+    workTask: [
+      {
+        id: "1",
+        title: "扫码节活动链接",
+        desc:
+          "在沃扫码首页添加“扫码节”活动图标及banner图，链接到扫码节活动页面（电商提供）"
+      },
+      {
+        id: "2",
+        title: "打点定位",
+        desc:
+          "在页面增加手机定位功能，对于开启定位的用户落下定位的数据，以便后续的数据分析"
+      },
+      {
+        id: "3",
+        title: "扫码节活动链接",
+        desc:
+          "在沃扫码首页添加“扫码节”活动图标及banner图，链接到扫码节活动页面（电商提供）"
+      },
+      {
+        id: "4",
+        title: "打点定位",
+        desc:
+          "在页面增加手机定位功能，对于开启定位的用户落下定位的数据，以便后续的数据分析"
+      },
+      {
+        id: "5",
+        title: "打点定位",
+        desc: "在页面增加手机定位功能，以便后续的数据分析"
+      },
+      {
+        id: "6",
+        title: "打点定位",
+        desc: "在页面增加手机定位功能，以便后续的数据分析"
+      }
+    ],
+    myTask: [
+      {
+        id: "1",
+        title: "左侧菜单栏动态获取",
+        desc: "完成GMS左侧菜单栏的动态获取"
+      },
+      {
+        id: "2",
+        title: "Node openCV",
+        desc: "使用nodejs做计算机视觉处理，在node中应用openCV"
+      },
+      {
+        id: "3",
+        title: "Cycle.js深入",
+        desc: "使用Cycle.js构建一个响应式应用"
+      },
+      {
+        id: "4",
+        title: "每日健身",
+        desc: "每日完成一次健身，时长15-20分钟"
+      }
+    ]
+  };
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "project/fetchNotice"
+      type: "task/getTodoTask"
     });
     dispatch({
-      type: "activities/fetchList"
+      type: "remainder/getRemainderWeek"
     });
     dispatch({
       type: "chart/fetch"
@@ -100,33 +167,36 @@ export default class Workplace extends PureComponent {
     });
   }
 
-  renderActivities() {
-    const { activities: { list } } = this.props;
-    return list.map(item => {
-      const events = item.template.split(/@\{([^{}]*)\}/gi).map(key => {
-        if (item[key]) {
-          return (
-            <a href={item[key].link} key={item[key].name}>
-              {item[key].name}
-            </a>
-          );
-        }
-        return key;
-      });
+  renderRemainders() {
+    const { remainder: { remainderWeek } } = this.props;
+    return remainderWeek.map((item, index) => {
       return (
-        <List.Item key={item.id}>
+        <List.Item
+          key={item.id}
+          className={styles.remainderList}
+          extra={
+            <div
+              style={{
+                height: 15,
+                width: 15,
+                borderRadius: 15,
+                backgroundColor: item.color
+              }}
+            />
+          }
+        >
           <List.Item.Meta
-            avatar={<Avatar src={item.user.avatar} />}
             title={
               <span>
-                <a className={styles.username}>{item.user.name}</a>
-                &nbsp;
-                <span className={styles.event}>{events}</span>
+                <a className={styles.username}>
+                  {index + 1}.{item.content}
+                </a>
               </span>
             }
             description={
-              <span className={styles.datetime} title={item.updatedAt}>
-                {moment(item.updatedAt).fromNow()}
+              <span className={styles.datetime} title={item.date}>
+                {item.date} |{" "}
+                {moment(item.date, "YYYY/MM/DD hh:mm:ss").fromNow()}
               </span>
             }
           />
@@ -137,9 +207,9 @@ export default class Workplace extends PureComponent {
 
   render() {
     const {
-      project: { notice },
-      projectLoading,
-      activitiesLoading,
+      task: { todoTask },
+      todoLoading,
+      remainderLoading,
       chart: { radarData }
     } = this.props;
 
@@ -149,7 +219,10 @@ export default class Workplace extends PureComponent {
           <Avatar size="large" src="static/avatar.png" />
         </div>
         <div className={styles.content}>
-          <div className={styles.contentTitle}>Hello Gatinul ~</div>
+          <div className={styles.contentTitle}>
+            {new Date().getMonth() + 1}月{new Date().getDate()}日 &nbsp; Hello
+            Gatinul
+          </div>
           <div>前端开发 | No safe wading in an unknown water.</div>
         </div>
       </div>
@@ -162,7 +235,13 @@ export default class Workplace extends PureComponent {
           <p>7</p>
         </div>
         <div className={styles.statItem}>
-          <p>项目访问</p>
+          <p>月任务完成度</p>
+          <p>
+            8<span> / 24</span>
+          </p>
+        </div>
+        <div className={styles.statItem}>
+          <p>博客访问</p>
           <p>{numeral(1201).format("0,0")}</p>
         </div>
       </div>
@@ -175,49 +254,68 @@ export default class Workplace extends PureComponent {
             <Card
               className={styles.projectList}
               style={{ marginBottom: 24 }}
-              title="进行中的项目"
+              title="待办任务"
               bordered={false}
-              extra={<Link to="/">全部项目</Link>}
-              loading={projectLoading}
+              extra={<Link to="/">全部任务</Link>}
+              loading={todoLoading}
               bodyStyle={{ padding: 0 }}
             >
-              {notice.map(item => (
-                <Card.Grid className={styles.projectGrid} key={item.id}>
-                  <Card bodyStyle={{ padding: 0 }} bordered={false}>
-                    <Card.Meta
-                      title={
-                        <div className={styles.cardTitle}>
-                          <Avatar size="small" src={item.logo} />
-                          <Link to={item.href}>{item.title}</Link>
+              <Tabs
+                tabPosition="bottom"
+                tabBarStyle={{ paddingLeft: 24, paddingRight: 24 }}
+              >
+                <TabPane className={styles.tabPane} tab="工作" key="1">
+                  <List
+                    dataSource={this.state.workTask}
+                    renderItem={(item, index) => (
+                      <List.Item key={item.id} className={styles.taskList}>
+                        <List.Item.Meta
+                          title={
+                            <a href="https://ant.design">
+                              {index + 1}.{item.title}
+                            </a>
+                          }
+                          description={item.desc}
+                        />
+                        <div>
+                          <a>完成</a>
                         </div>
-                      }
-                      description={item.description}
-                    />
-                    <div className={styles.projectItemContent}>
-                      <Link to={item.memberLink}>{item.member || ""}</Link>
-                      {item.updatedAt && (
-                        <span
-                          className={styles.datetime}
-                          title={item.updatedAt}
-                        >
-                          {moment(item.updatedAt).fromNow()}
-                        </span>
-                      )}
-                    </div>
-                  </Card>
-                </Card.Grid>
-              ))}
+                      </List.Item>
+                    )}
+                  />
+                </TabPane>
+                <TabPane className={styles.tabPane} tab="个人" key="2">
+                  <List
+                    dataSource={this.state.myTask}
+                    renderItem={(item, index) => (
+                      <List.Item key={item.id}>
+                        <List.Item.Meta
+                          title={
+                            <a href="https://ant.design">
+                              {index + 1}.{item.title}
+                            </a>
+                          }
+                          description={item.desc}
+                        />
+                        <div>
+                          <a>完成</a>
+                        </div>
+                      </List.Item>
+                    )}
+                  />
+                </TabPane>
+              </Tabs>
             </Card>
             <Card
               bodyStyle={{ padding: 0 }}
               bordered={false}
               className={styles.activeCard}
-              title="动态"
-              loading={activitiesLoading}
+              title="提醒事项"
+              loading={remainderLoading}
             >
-              <List loading={activitiesLoading} size="large">
+              <List loading={remainderLoading} size="large">
                 <div className={styles.activitiesList}>
-                  {this.renderActivities()}
+                  {this.renderRemainders()}
                 </div>
               </List>
             </Card>
@@ -225,20 +323,16 @@ export default class Workplace extends PureComponent {
           <Col xl={8} lg={24} md={24} sm={24} xs={24}>
             <Card
               style={{ marginBottom: 24 }}
-              title="快速开始 / 便捷导航"
+              title="便捷导航"
               bordered={false}
               bodyStyle={{ padding: 0 }}
             >
-              <EditableLinkGroup
-                onAdd={() => {}}
-                links={links}
-                linkElement={Link}
-              />
+              <EditableLinkGroup links={links} linkElement={Link} />
             </Card>
             <Card
               style={{ marginBottom: 24 }}
               bordered={false}
-              title="XX 指数"
+              title="消费指数"
               loading={radarData.length === 0}
             >
               <div className={styles.chart}>
@@ -248,7 +342,7 @@ export default class Workplace extends PureComponent {
             <Card
               bodyStyle={{ paddingTop: 12, paddingBottom: 12 }}
               bordered={false}
-              title="团队"
+              title="项目"
             >
               <div className={styles.members}>
                 <Row gutter={48}>

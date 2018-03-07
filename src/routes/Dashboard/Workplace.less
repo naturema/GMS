@@ -1,6 +1,25 @@
 @import "~antd/lib/style/themes/default.less";
 @import "../../utils/utils.less";
-
+// 通过这种方式覆盖antd样式
+.taskList {
+  :global {
+    .ant-list-item-content {
+      flex: 0.4 1 0%;
+    }
+  }
+}
+.remainderList {
+  position: relative;
+}
+.remainderList {
+  :global {
+    .ant-list-item-extra {
+      position: absolute;
+      top: 27%;
+      right: 3%;
+    }
+  }
+}
 .activitiesList {
   padding: 0 24px 8px 24px;
   .username {
@@ -10,7 +29,11 @@
     font-weight: normal;
   }
 }
-
+.tabPane {
+  height: 382px;
+  padding: 0 40px;
+  overflow: scroll;
+}
 .pageHeaderContent {
   display: flex;
   .avatar {
@@ -71,7 +94,7 @@
       right: 0;
       width: 1px;
       height: 40px;
-      content: '';
+      content: "";
     }
     &:last-child {
       padding-right: 0;
@@ -96,7 +119,7 @@
       max-width: 100px;
       vertical-align: top;
       margin-left: 12px;
-      transition: all .3s;
+      transition: all 0.3s;
       display: inline-block;
       .textOverflow();
     }
@@ -164,7 +187,7 @@
   color: @disabled-color;
 }
 
-@media screen and (max-width: @screen-xl)  and (min-width: @screen-lg) {
+@media screen and (max-width: @screen-xl) and (min-width: @screen-lg) {
   .activeCard {
     margin-bottom: 24px;
   }

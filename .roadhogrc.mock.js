@@ -14,7 +14,7 @@ const noProxy = process.env.NO_PROXY === "true";
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 const proxy = {
   // 支持值为 Object 和 Array
-  "GET /api/currentUser": {
+  "POST /api/currentUser": {
     $desc: "获取当前用户接口",
     $params: {
       pageSize: {
@@ -67,6 +67,30 @@ const proxy = {
       }
     ]
   },
+  //7FFF00 1 FFD700 2 EE7942 3 E4393C 4
+  "GET /remainder/getRemainderWeek": [
+    {
+      id: "1",
+      content: "早检",
+      date: "2018-3-8 06:30:00",
+      level: 4,
+      color: "#E4393C"
+    },
+    {
+      id: "2",
+      content: "大数据展示的ppt",
+      date: "2018-3-9 17:30:00",
+      level: 3,
+      color: "#EE7942"
+    },
+    {
+      id: "3",
+      content: "打篮球",
+      date: "2018-3-10 11:30:00",
+      level: 1,
+      color: "#7FFF00"
+    }
+  ],
   "GET /blog/getTags": {
     success: false,
     message: ""
@@ -129,7 +153,7 @@ const proxy = {
     res.send({
       status: "ok",
       type,
-      currentAuthority: "shixy"
+      currentAuthority: "gatinul"
     });
   },
   "POST /api/register": (req, res) => {
