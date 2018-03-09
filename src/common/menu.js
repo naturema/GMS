@@ -52,6 +52,19 @@ const menuData = [
     ]
   },
   {
+    name: "任务事项",
+    icon: "clock-circle-o",
+    path: "task",
+    authority: ["admin", "gatinul"],
+    children: [
+      {
+        name: "任务管理",
+        path: "taskList",
+        authority: ["admin", "gatinul"]
+      }
+    ]
+  },
+  {
     name: "表单页",
     icon: "form",
     path: "form",

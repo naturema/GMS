@@ -40,5 +40,49 @@ module.exports = {
     }
     const result = await taskService.getTodo(obj.start, obj.end, "my");
     ctx.body = result;
+  },
+  async getAllTask(ctx) {
+    const data = JSON.parse(ctx.request.body);
+    let obj = {};
+    if (data.timeSlot === "week") {
+      obj = sureWeek(new Date());
+    } else if (data.timeSlot === "month") {
+      obj = sureMonth(new Date());
+    } else if (data.timeSlot === "year") {
+      const y = new Date().getFullYear();
+      obj = {
+        start: y + "-01-01",
+        end: y + "-12-31"
+      };
+    } else {
+      obj = null;
+    }
+    const index = parseInt(data.page);
+    const timeSlot = data.timeSlot ? data.timeSlot : "";
+    const status = data.status ? data.status : "";
+    const result = await taskService.getAllTask(index, 5, obj, status);
+    ctx.body = result;
+  },
+  async getCount(ctx) {
+    let result = {
+      weekTodo: "- ",
+      weekAll: "- ",
+      expire: "- "
+    };
+    const obj = sureWeek(new Date());
+    result.weekTodo = await taskService.getWeekTask(obj.start, obj.end, "0");
+    result.weekAll = await taskService.getWeekTask(obj.start, obj.end);
+    result.expire = await taskService.getExpire();
+    ctx.body = result;
+  },
+  async getTotalTask(ctx) {
+    let data = {};
+    if (ctx.request.body.length) {
+      data = JSON.parse(ctx.request.body);
+    }
+    const status = data.status ? data.status : "";
+    const type = data.type ? data.type : "";
+    const result = await taskService.getTotalTask(type, status);
+    ctx.body = result;
   }
 };

@@ -8,6 +8,11 @@ const api = require("./controller/ApiController");
 const router = new Router();
 
 router.get("/", main.index);
+// 系统api
+router.post("/api/getAuthority", api.getAuthority);
+router.post("/api/login/account", api.login);
+router.post("/api/currentUser", api.user);
+// 博客管理
 router.post("/blog/publish", blog.publish);
 router.post("/blog/editBlog", blog.editBlog);
 router.post("/blog/draft", blog.draft);
@@ -21,11 +26,14 @@ router.post("/blog/editTag", blog.editTag);
 router.post("/blog/newTag", blog.newTag);
 router.post("/blog/delTag", blog.delTag);
 router.post("/blog/delBlog", blog.delBlog);
-router.post("/api/getAuthority", api.getAuthority);
-router.post("/api/login/account", api.login);
-router.post("/api/currentUser", api.user);
+// 任务管理
 router.post("/task/getWorkTodo", task.getWorkTodo);
 router.post("/task/getMyTodo", task.getMyTodo);
+router.post("/task/getAllTask", task.getAllTask);
+router.get("/task/getCount", task.getCount);
+router.post("/task/getTotalTask", task.getTotalTask);
+
+// 提醒管理
 router.get("/remainder/getRemainderWeek", mock.getRemainderWeek);
 
 router.get("/api/project/notice", mock.notice);
