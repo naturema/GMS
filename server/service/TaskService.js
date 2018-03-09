@@ -5,7 +5,7 @@ const sFormat = require("../utils").symbolFormat;
 const taskModel = require("../model/TaskModel");
 module.exports = {
   async getTodo(start, end, type) {
-    const result = await taskModel.getWorkTodo(start, end, type);
+    const result = await taskModel.getTodo(start, end, type);
     return result.length > 0 ? result : [];
   },
   async getAllTask(page, size, obj, status) {

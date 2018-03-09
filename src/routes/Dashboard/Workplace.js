@@ -146,8 +146,8 @@ export default class Workplace extends PureComponent {
             }
             description={
               <span className={styles.datetime} title={item.date}>
-                {item.date} &nbsp;{moment(item.date).format("dddd")}|{" "}
-                {moment(item.date, "YYYY/MM/DD hh:mm:ss").fromNow()}
+                {item.date} &nbsp;{moment(item.date).format("dddd")}|
+                {moment(item.date, "YYYY-MM-DD hh:mm:ss").fromNow()}
               </span>
             }
           />
@@ -225,6 +225,11 @@ export default class Workplace extends PureComponent {
                           title={
                             <a href="">
                               {index + 1}.{item.task_title}
+                              <span className={styles.titleExtra}>
+                                {moment(item.hope_finish).format(
+                                  "YYYY-MM-DD hh:mm:ss"
+                                )}
+                              </span>
                             </a>
                           }
                           description={item.task_desc}
@@ -246,6 +251,11 @@ export default class Workplace extends PureComponent {
                           title={
                             <a href="">
                               {index + 1}.{item.task_title}
+                              <span className={styles.titleExtra}>
+                                {moment(item.hope_finish).format(
+                                  "YYYY-MM-DD hh:mm:ss"
+                                )}
+                              </span>
                             </a>
                           }
                           description={item.task_desc}
