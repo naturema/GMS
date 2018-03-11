@@ -23,5 +23,17 @@ module.exports = {
   async getTotalTask(type, status) {
     const result = await taskModel.getTotalTask(type, status);
     return result.length;
+  },
+  async newTask(data) {
+    const result = await taskModel.newTask(data);
+    return result.affectedRows > 0 ? true : false;
+  },
+  async delTask(id) {
+    const result = await taskModel.delTask(id);
+    return result.affectedRows > 0 ? true : false;
+  },
+  async changeTask(id) {
+    const result = await taskModel.changeTask(id);
+    return result.affectedRows > 0 ? true : false;
   }
 };

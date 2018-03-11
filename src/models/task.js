@@ -3,7 +3,10 @@ import {
   getMyTodo,
   getAllTask,
   getCount,
-  getTotalTask
+  getTotalTask,
+  newTask,
+  delTask,
+  changeTask
 } from "../services/task";
 
 export default {
@@ -51,6 +54,15 @@ export default {
         type: "totalTaskGet",
         payload: res ? res : 50
       });
+    },
+    *newTask({ payload }, { call, put }) {
+      yield call(newTask, payload);
+    },
+    *delTask({ payload }, { call, put }) {
+      yield call(delTask, payload);
+    },
+    *changeTask({ payload }, { call, put }) {
+      yield call(changeTask, payload);
     }
   },
   reducers: {

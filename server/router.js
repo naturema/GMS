@@ -32,6 +32,9 @@ router.post("/task/getMyTodo", task.getMyTodo);
 router.post("/task/getAllTask", task.getAllTask);
 router.get("/task/getCount", task.getCount);
 router.post("/task/getTotalTask", task.getTotalTask);
+router.post("/task/newTask", task.newTask);
+router.post("/task/delTask", task.delTask);
+router.post("/task/changeTask", task.changeTask);
 
 // 提醒管理
 router.get("/remainder/getRemainderWeek", mock.getRemainderWeek);

@@ -85,5 +85,21 @@ module.exports = {
     const type = data.type ? data.type : "";
     const result = await taskService.getTotalTask(type, status);
     ctx.body = result;
+  },
+  async newTask(ctx) {
+    const data = JSON.parse(ctx.request.body);
+    data.status = "0";
+    const result = await taskService.newTask(data);
+    ctx.body = result;
+  },
+  async delTask(ctx) {
+    const id = parseInt(ctx.request.body);
+    const result = await taskService.delTask(id);
+    ctx.body = result;
+  },
+  async changeTask(ctx) {
+    const id = parseInt(ctx.request.body);
+    const result = await taskService.changeTask(id);
+    ctx.body = result;
   }
 };

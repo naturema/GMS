@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import moment from "moment";
 import { connect } from "dva";
 import {
@@ -8,12 +8,13 @@ import {
   Col,
   Radio,
   Input,
-  Progress,
+  Form,
   Button,
+  Select,
   Icon,
-  Dropdown,
-  Menu,
-  Avatar
+  DatePicker,
+  Modal,
+  message
 } from "antd";
 
 import PageHeaderLayout from "../../layouts/PageHeaderLayout";
@@ -22,16 +23,23 @@ import styles from "./TaskList.less";
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
+const Option = Select.Option;
+const { RangePicker } = DatePicker;
+const FormItem = Form.Item;
 const { Search } = Input;
+const { TextArea } = Input;
 
 @connect(({ task, loading }) => ({
   task,
   loading: loading.models.task
 }))
-export default class BasicList extends PureComponent {
+class TaskList extends Component {
   state = {
     current: 1,
-    taskType: ""
+    taskType: "",
+    taskStatus: "",
+    confirmLoading: false,
+    visible: false
   };
   componentDidMount() {
     this.props.dispatch({
@@ -52,13 +60,15 @@ export default class BasicList extends PureComponent {
       type: "task/getAllTask",
       payload: {
         page: 1,
-        type: e.target.value
+        type: e.target.value,
+        status: this.state.taskStatus
       }
     });
     this.props.dispatch({
       type: "task/getTotalTask",
       payload: {
-        type: e.target.value
+        type: e.target.value,
+        status: this.state.taskStatus
       }
     });
     this.setState({
@@ -66,9 +76,158 @@ export default class BasicList extends PureComponent {
       current: 1
     });
   };
-
+  changeStatus = value => {
+    this.props.dispatch({
+      type: "task/getAllTask",
+      payload: {
+        page: 1,
+        type: this.state.taskType,
+        status: value
+      }
+    });
+    this.props.dispatch({
+      type: "task/getTotalTask",
+      payload: {
+        type: this.state.taskType,
+        status: value
+      }
+    });
+    this.setState({
+      taskStatus: value,
+      current: 1
+    });
+  };
+  disabledDate = current => {
+    // Can not select days before today
+    return (
+      current <
+      moment()
+        .subtract(1, "days")
+        .endOf("day")
+    );
+  };
+  doneTask = item => {
+    this.props
+      .dispatch({
+        type: "task/changeTask",
+        payload: item.item.id
+      })
+      .then(() => {
+        message.success("更改成功");
+        this.props.dispatch({
+          type: "task/getAllTask",
+          payload: {
+            page: this.state.current,
+            type: this.state.taskType,
+            status: this.state.taskStatus
+          }
+        });
+        this.props.dispatch({
+          type: "task/getCount"
+        });
+        this.props.dispatch({
+          type: "task/getTotalTask",
+          payload: {
+            type: this.state.taskType,
+            status: this.state.taskStatus
+          }
+        });
+      });
+  };
+  delTask = item => {
+    this.props
+      .dispatch({
+        type: "task/delTask",
+        payload: item.item.id
+      })
+      .then(() => {
+        message.success("删除成功");
+        this.props.dispatch({
+          type: "task/getAllTask",
+          payload: {
+            page: this.state.current,
+            type: this.state.taskType,
+            status: this.state.taskStatus
+          }
+        });
+        this.props.dispatch({
+          type: "task/getCount"
+        });
+        this.props.dispatch({
+          type: "task/getTotalTask",
+          payload: {
+            type: this.state.taskType,
+            status: this.state.taskStatus
+          }
+        });
+      });
+  };
+  addTask = () => {
+    this.setState({
+      visible: true
+    });
+    this.props.form.setFieldsValue({
+      title: "",
+      type: "",
+      date: "",
+      desc: ""
+    });
+  };
+  handleOk = e => {
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.setState({
+          confirmLoading: true
+        });
+        this.props
+          .dispatch({
+            type: "task/newTask",
+            payload: {
+              task_title: values.title,
+              task_desc: values.desc,
+              task_type: values.type,
+              start_date: values.date[0].format("YYYY-MM-DD hh:mm:ss"),
+              hope_finish: values.date[1].format("YYYY-MM-DD hh:mm:ss")
+            }
+          })
+          .then(() => {
+            message.success("新增成功");
+            this.setState({
+              visible: false,
+              confirmLoading: false,
+              current: 1
+            });
+            this.props.dispatch({
+              type: "task/getAllTask",
+              payload: {
+                page: 1,
+                type: this.state.taskType,
+                status: this.state.taskStatus
+              }
+            });
+            this.props.dispatch({
+              type: "task/getCount"
+            });
+            this.props.dispatch({
+              type: "task/getTotalTask",
+              payload: {
+                type: this.state.taskType,
+                status: this.state.taskStatus
+              }
+            });
+          });
+      }
+    });
+  };
+  handleCancel = () => {
+    this.setState({
+      visible: false
+    });
+  };
   render() {
     const { task: { allTask, count, totalTask }, loading } = this.props;
+    const { visible, confirmLoading } = this.state;
+    const { getFieldDecorator } = this.props.form;
     const Info = ({ title, value, bordered }) => (
       <div className={styles.headerInfo}>
         <span>{title}</span>
@@ -84,6 +243,12 @@ export default class BasicList extends PureComponent {
           <RadioButton value="work">工作</RadioButton>
           <RadioButton value="my">个人</RadioButton>
         </RadioGroup>
+        <Select defaultValue="" onChange={this.changeStatus}>
+          <Option value="">全部</Option>
+          <Option value="0">进行中</Option>
+          <Option value="1">已完成</Option>
+          <Option value="2">已过期</Option>
+        </Select>
         <Search
           className={styles.extraContentSearch}
           placeholder="请输入"
@@ -98,7 +263,6 @@ export default class BasicList extends PureComponent {
       total: totalTask,
       current: this.state.current,
       onChange: page => {
-        console.log(page);
         this.setState({
           current: page
         });
@@ -150,12 +314,12 @@ export default class BasicList extends PureComponent {
       }
     };
     const ListContent = ({
-      data: { type, task_type, hope_finish, create_date }
+      data: { type, task_type, hope_finish, start_date }
     }) => (
       <div className={styles.listContent}>
         <div className={styles.listContentItem}>
-          <span>创建时间</span>
-          <p>{moment(create_date).format("YYYY-MM-DD HH:mm")}</p>
+          <span>开始时间</span>
+          <p>{moment(start_date).format("YYYY-MM-DD HH:mm")}</p>
         </div>
         <div className={styles.listContentItem}>
           <span>截止时间</span>
@@ -170,6 +334,79 @@ export default class BasicList extends PureComponent {
 
     return (
       <PageHeaderLayout>
+        <Modal
+          title="任务新增"
+          visible={visible}
+          onOk={this.handleOk}
+          confirmLoading={confirmLoading}
+          onCancel={this.handleCancel}
+          okText="确定"
+          cancelText="取消"
+        >
+          <Form onSubmit={this.handleSubmit} className="login-form">
+            <FormItem
+              label="任务名称"
+              labelCol={{ span: 5 }}
+              wrapperCol={{ span: 12 }}
+            >
+              {getFieldDecorator("title", {
+                rules: [{ required: true, message: "请填写任务名称!" }]
+              })(
+                <Input
+                  prefix={
+                    <Icon type="tags-o" style={{ color: "rgba(0,0,0,.25)" }} />
+                  }
+                  placeholder="填写标签名称"
+                />
+              )}
+            </FormItem>
+
+            <FormItem
+              label="任务类型"
+              labelCol={{ span: 5 }}
+              wrapperCol={{ span: 12 }}
+            >
+              {getFieldDecorator("type", {
+                rules: [{ required: true, message: "请选择任务类型" }]
+              })(
+                <Select>
+                  <Option value="work">工作</Option>
+                  <Option value="my">个人</Option>
+                </Select>
+              )}
+            </FormItem>
+            <FormItem
+              label="任务周期"
+              labelCol={{ span: 5 }}
+              wrapperCol={{ span: 12 }}
+            >
+              {getFieldDecorator("date", {
+                rules: [{ required: true, message: "请选择任务周期" }]
+              })(
+                <RangePicker
+                  disabledDate={this.disabledDate}
+                  showTime={{
+                    hideDisabledOptions: true,
+                    defaultValue: [
+                      moment("00:00:00", "HH:mm:ss"),
+                      moment("11:59:59", "HH:mm:ss")
+                    ]
+                  }}
+                  format="YYYY-MM-DD HH:mm:ss"
+                />
+              )}
+            </FormItem>
+            <FormItem
+              label="任务描述"
+              labelCol={{ span: 5 }}
+              wrapperCol={{ span: 12 }}
+            >
+              {getFieldDecorator("desc")(
+                <TextArea autosize={{ minRows: 3 }} />
+              )}
+            </FormItem>
+          </Form>
+        </Modal>
         <div className={styles.standardList}>
           <Card bordered={false}>
             <Row>
@@ -197,6 +434,7 @@ export default class BasicList extends PureComponent {
               type="dashed"
               style={{ width: "100%", marginBottom: 8 }}
               icon="plus"
+              onClick={this.addTask}
             >
               添加
             </Button>
@@ -207,7 +445,12 @@ export default class BasicList extends PureComponent {
               pagination={paginationProps}
               dataSource={allTask}
               renderItem={item => (
-                <List.Item actions={[<a>完成</a>, <a>删除</a>]}>
+                <List.Item
+                  actions={[
+                    <a onClick={this.doneTask.bind(this, { item })}>完成</a>,
+                    <a onClick={this.delTask.bind(this, { item })}>删除</a>
+                  ]}
+                >
                   <List.Item.Meta
                     title={<StatusTitle data={item} />}
                     description={item.task_desc}
@@ -222,3 +465,5 @@ export default class BasicList extends PureComponent {
     );
   }
 }
+const TaskManage = Form.create()(TaskList);
+export default TaskManage;
