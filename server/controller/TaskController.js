@@ -58,9 +58,10 @@ module.exports = {
       obj = null;
     }
     const index = parseInt(data.page);
+    const type = data.type ? data.type : "";
     const timeSlot = data.timeSlot ? data.timeSlot : "";
     const status = data.status ? data.status : "";
-    const result = await taskService.getAllTask(index, 5, obj, status);
+    const result = await taskService.getAllTask(index, 5, obj, status, type);
     ctx.body = result;
   },
   async getCount(ctx) {

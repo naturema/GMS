@@ -8,8 +8,8 @@ module.exports = {
     const result = await taskModel.getTodo(start, end, type);
     return result.length > 0 ? result : [];
   },
-  async getAllTask(page, size, obj, status) {
-    const result = await taskModel.getAllTask(page, size, obj, status);
+  async getAllTask(page, size, obj, status, type) {
+    const result = await taskModel.getAllTask(page, size, obj, status, type);
     return result.length > 0 ? result : [];
   },
   async getWeekTask(start, end, status) {

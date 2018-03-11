@@ -30,7 +30,8 @@ const { Search } = Input;
 }))
 export default class BasicList extends PureComponent {
   state = {
-    current: 1
+    current: 1,
+    taskType: ""
   };
   componentDidMount() {
     this.props.dispatch({
@@ -46,6 +47,25 @@ export default class BasicList extends PureComponent {
       type: "task/getTotalTask"
     });
   }
+  changeType = e => {
+    this.props.dispatch({
+      type: "task/getAllTask",
+      payload: {
+        page: 1,
+        type: e.target.value
+      }
+    });
+    this.props.dispatch({
+      type: "task/getTotalTask",
+      payload: {
+        type: e.target.value
+      }
+    });
+    this.setState({
+      taskType: e.target.value,
+      current: 1
+    });
+  };
 
   render() {
     const { task: { allTask, count, totalTask }, loading } = this.props;
@@ -59,7 +79,7 @@ export default class BasicList extends PureComponent {
 
     const extraContent = (
       <div className={styles.extraContent}>
-        <RadioGroup defaultValue="all">
+        <RadioGroup defaultValue="" onChange={this.changeType}>
           <RadioButton value="">全部</RadioButton>
           <RadioButton value="work">工作</RadioButton>
           <RadioButton value="my">个人</RadioButton>
@@ -85,7 +105,8 @@ export default class BasicList extends PureComponent {
         this.props.dispatch({
           type: "task/getAllTask",
           payload: {
-            page: page
+            page: page,
+            type: this.state.taskType
           }
         });
       }
@@ -128,7 +149,9 @@ export default class BasicList extends PureComponent {
         }
       }
     };
-    const ListContent = ({ data: { task_type, hope_finish, create_date } }) => (
+    const ListContent = ({
+      data: { type, task_type, hope_finish, create_date }
+    }) => (
       <div className={styles.listContent}>
         <div className={styles.listContentItem}>
           <span>创建时间</span>
@@ -140,28 +163,9 @@ export default class BasicList extends PureComponent {
         </div>
         <div className={styles.listContentItem}>
           <span>类型</span>
-          <p>{task_type}</p>
+          <p>{type}</p>
         </div>
       </div>
-    );
-
-    const menu = (
-      <Menu>
-        <Menu.Item>
-          <a>编辑</a>
-        </Menu.Item>
-        <Menu.Item>
-          <a>删除</a>
-        </Menu.Item>
-      </Menu>
-    );
-
-    const MoreBtn = () => (
-      <Dropdown overlay={menu}>
-        <a>
-          更多 <Icon type="down" />
-        </a>
-      </Dropdown>
     );
 
     return (
@@ -203,7 +207,7 @@ export default class BasicList extends PureComponent {
               pagination={paginationProps}
               dataSource={allTask}
               renderItem={item => (
-                <List.Item actions={[<a>编辑</a>, <MoreBtn />]}>
+                <List.Item actions={[<a>完成</a>, <a>删除</a>]}>
                   <List.Item.Meta
                     title={<StatusTitle data={item} />}
                     description={item.task_desc}

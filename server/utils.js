@@ -29,7 +29,9 @@ exports.sureWeek = function(d) {
   const date = moment(d).format("YYYY-MM-DD");
   const obj = {};
   if (i == 0) {
-    obj.start = moment(date).subtract(6, "days");
+    obj.start = moment(date)
+      .subtract(6, "days")
+      .format("YYYY-MM-DD");
     obj.end = date;
   } else {
     obj.start = moment(date)
