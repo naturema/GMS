@@ -11,7 +11,10 @@ module.exports = {
    * @param {obj}
    */
   async publish(ctx) {
-    const result = obj;
+    const result = {
+      success: false,
+      message: ""
+    };
     log.info(format("发布博客", __filename));
     const data = JSON.parse(ctx.request.body);
     const opt = resolve(data.value);
@@ -30,7 +33,10 @@ module.exports = {
     ctx.body = result;
   },
   async editBlog(ctx) {
-    const result = obj;
+    const result = {
+      success: false,
+      message: ""
+    };
     log.info(format("发布博客", __filename));
     const data = JSON.parse(ctx.request.body);
     const opt = resolve(data.value);
@@ -50,7 +56,10 @@ module.exports = {
     ctx.body = result;
   },
   async draft(ctx) {
-    const result = obj;
+    const result = {
+      success: false,
+      message: ""
+    };
     log.info(format("保存博客", __filename));
     const opt = resolve(ctx.request.body);
     const res = await blogService.draft(opt.title, opt.short, opt.content);
@@ -63,7 +72,10 @@ module.exports = {
     ctx.body = result;
   },
   async getDraft(ctx) {
-    const result = obj;
+    const result = {
+      success: false,
+      message: ""
+    };
     const index = parseInt(ctx.request.body);
     log.info(format(`获取草稿博文${index + 1}到${index + 6}条`, __filename));
     const res = await blogService.getDraft(index, 6);
@@ -77,7 +89,10 @@ module.exports = {
     ctx.body = result;
   },
   async getBlog(ctx) {
-    const result = obj;
+    const result = {
+      success: false,
+      message: ""
+    };
     const index = parseInt(ctx.request.body);
     log.info(format(`获取博文第${index}页`, __filename));
     const res = await blogService.getBlog(index, 5);
@@ -91,7 +106,10 @@ module.exports = {
     ctx.body = result;
   },
   async delDraft(ctx) {
-    const result = obj;
+    const result = {
+      success: false,
+      message: ""
+    };
     const id = ctx.request.body;
     log.info(format(`删除id为${id}的博文草稿`, __filename));
     const res = await blogService.delDraft(id);
@@ -105,7 +123,10 @@ module.exports = {
     ctx.body = result;
   },
   async getTags(ctx) {
-    const result = obj;
+    const result = {
+      success: false,
+      message: ""
+    };
     log.info(format("获取博文标签列表", __filename));
     const res = await blogService.getTags();
     if (res) {
@@ -118,7 +139,10 @@ module.exports = {
     ctx.body = result;
   },
   async getBlogTotal(ctx) {
-    const result = obj;
+    const result = {
+      success: false,
+      message: ""
+    };
     const res = await blogService.getBlogTotal();
     if (res > 0) {
       result.success = true;
@@ -130,7 +154,10 @@ module.exports = {
     ctx.body = result;
   },
   async getTagColor(ctx) {
-    const result = obj;
+    const result = {
+      success: false,
+      message: ""
+    };
     const res = await blogService.getTagColor();
     if (res) {
       result.success = true;
@@ -142,7 +169,10 @@ module.exports = {
     ctx.body = result;
   },
   async editTag(ctx) {
-    const result = obj;
+    const result = {
+      success: false,
+      message: ""
+    };
     const data = JSON.parse(ctx.request.body);
     const res = await blogService.editTag(data);
     if (res) {
@@ -155,7 +185,10 @@ module.exports = {
     ctx.body = result;
   },
   async newTag(ctx) {
-    const result = obj;
+    const result = {
+      success: false,
+      message: ""
+    };
     const data = JSON.parse(ctx.request.body);
     const res = await blogService.newTag(data);
     if (res) {
@@ -168,7 +201,10 @@ module.exports = {
     ctx.body = result;
   },
   async delTag(ctx) {
-    const result = obj;
+    const result = {
+      success: false,
+      message: ""
+    };
     const data = JSON.parse(ctx.request.body);
     log.info(format(`删除id为${data.id}的标签`, __filename));
     const res = await blogService.delTag(data);
@@ -181,7 +217,10 @@ module.exports = {
     ctx.body = result;
   },
   async delBlog(ctx) {
-    const result = obj;
+    const result = {
+      success: false,
+      message: ""
+    };
     const id = ctx.request.body;
     log.info(format(`删除id为${id}的博文`, __filename));
     const res = await blogService.delBlog(id);
@@ -214,7 +253,3 @@ function resolve(value) {
     content: content.split("<!--More-->\n")[0] + content1
   };
 }
-const obj = {
-  success: false,
-  message: ""
-};
