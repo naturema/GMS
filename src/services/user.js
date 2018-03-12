@@ -7,6 +7,6 @@ export async function query() {
 export async function queryCurrent() {
   return request("/api/currentUser", {
     method: "POST",
-    body: localStorage.getItem("antd-pro-authority")
+    body: localStorage.getItem("antd-pro-authority") || "user"
   });
 }

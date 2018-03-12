@@ -22,11 +22,9 @@ module.exports = {
     }
     if (status) {
       if (status == "0") {
-        _sql += ` and date_format("${datetime}",'%d %b %Y %T:%f') <= date_format(hope_finish,'%d %b %Y %T:%f')
-      and status = "0"`;
+        _sql += ` and "${datetime}" <= hope_finish and status = "0"`;
       } else if (status == "2") {
-        _sql += ` and date_format("${datetime}",'%d %b %Y %T:%f') > date_format(hope_finish,'%d %b %Y %T:%f')
-      and status = "0"`;
+        _sql += ` and "${datetime}" > hope_finish and status = "0"`;
       } else {
         _sql += ` and status = "${status}"`;
       }
@@ -47,7 +45,7 @@ module.exports = {
     `;
     if (status) {
       _sql += ` and status = "${status}" and
-      date_format("${datetime}",'%d %b %Y %T:%f') <= date_format(hope_finish,'%d %b %Y %T:%f')`;
+      "${datetime}"<= hope_finish`;
     }
     const result = await db.query(_sql);
     return result;
@@ -55,8 +53,8 @@ module.exports = {
   async getExpire() {
     const datetime = time.format(new Date());
     const _sql = `select * from gms_task where
-    date_format("${datetime}",'%d %b %Y %T:%f') > date_format(hope_finish,'%d %b %Y %T:%f')
-    and status = "0"`;
+    "${datetime}" > hope_finish and status = "0"`;
+    console.log(_sql);
     const result = await db.query(_sql);
     return result;
   },
@@ -68,11 +66,9 @@ module.exports = {
     }
     if (status) {
       if (status == "0") {
-        _sql += ` and date_format("${datetime}",'%d %b %Y %T:%f') <= date_format(hope_finish,'%d %b %Y %T:%f')
-      and status = "0"`;
+        _sql += ` and "${datetime}" <= hope_finish and status = "0"`;
       } else if (status == "2") {
-        _sql += ` and date_format("${datetime}",'%d %b %Y %T:%f') > date_format(hope_finish,'%d %b %Y %T:%f')
-      and status = "0"`;
+        _sql += ` and "${datetime}" > hope_finish and status = "0"`;
       } else {
         _sql += ` and status = "${status}"`;
       }
