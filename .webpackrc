@@ -1,5 +1,4 @@
 {
-  "devtool":"source-map",
   "entry": "src/index.js",
   "extraBabelPlugins": [
     "transform-decorators-legacy",
