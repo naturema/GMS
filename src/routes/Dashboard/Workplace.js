@@ -44,37 +44,37 @@ const members = [
   {
     id: "1",
     title: "沃行",
-    logo: "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png",
+    // logo: "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png",
     link: ""
   },
   {
     id: "2",
     title: "博客系统",
-    logo: "https://gw.alipayobjects.com/zos/rmsportal/cnrhVkzwxjPwAaCfPbdc.png",
+    // logo: "https://gw.alipayobjects.com/zos/rmsportal/cnrhVkzwxjPwAaCfPbdc.png",
     link: ""
   },
   {
     id: "3",
     title: "智能运维",
-    logo: "https://gw.alipayobjects.com/zos/rmsportal/gaOngJwsRYRaVAuXXcmB.png",
+    // logo: "https://gw.alipayobjects.com/zos/rmsportal/gaOngJwsRYRaVAuXXcmB.png",
     link: ""
   },
   {
     id: "4",
     title: "小程序",
-    logo: "https://gw.alipayobjects.com/zos/rmsportal/ubnKSIfAJTxIgXOKlciN.png",
+    // logo: "https://gw.alipayobjects.com/zos/rmsportal/ubnKSIfAJTxIgXOKlciN.png",
     link: ""
   },
   {
     id: "5",
     title: "快速开发",
-    logo: "https://gw.alipayobjects.com/zos/rmsportal/WhxKECPNujWoWEFNdnJE.png",
+    // logo: "https://gw.alipayobjects.com/zos/rmsportal/WhxKECPNujWoWEFNdnJE.png",
     link: ""
   },
   {
     id: "6",
     title: "沃扫码",
-    logo: "https://gw.alipayobjects.com/zos/rmsportal/ubnKSIfAJTxIgXOKlciN.png",
+    // logo: "https://gw.alipayobjects.com/zos/rmsportal/ubnKSIfAJTxIgXOKlciN.png",
     link: ""
   }
 ];
