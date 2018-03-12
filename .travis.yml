@@ -11,7 +11,7 @@ install:
 script:
 - npm run travis
 after_success:
-- tar -jcf Blog.tar.bz2 * --exclude=mock --exclude=node_modules --exclude=src --exclude=.roadhogrc.mock.js
+- tar -jcf GMS.tar.bz2 * --exclude=mock --exclude=node_modules --exclude=src --exclude=.roadhogrc.mock.js
 - scp GMS.tar.bz2 root@59.110.233.80:/home/GMS
 - ssh root@59.110.233.80 'cd /home/GMS && tar -jxf GMS.tar.bz2'
 - ssh root@59.110.233.80 'cd /home/GMS && nodemon app.js'
