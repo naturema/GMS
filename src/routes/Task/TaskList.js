@@ -106,11 +106,11 @@ class TaskList extends Component {
         .endOf("day")
     );
   };
-  doneTask = item => {
+  doneTask = id => {
     this.props
       .dispatch({
         type: "task/changeTask",
-        payload: item.item.id
+        payload: id.id
       })
       .then(() => {
         message.success("更改成功");
@@ -186,8 +186,8 @@ class TaskList extends Component {
               task_title: values.title,
               task_desc: values.desc,
               task_type: values.type,
-              start_date: values.date[0].format("YYYY-MM-DD hh:mm:ss"),
-              hope_finish: values.date[1].format("YYYY-MM-DD hh:mm:ss")
+              start_date: values.date[0].format("YYYY-MM-DD HH:mm:ss"),
+              hope_finish: values.date[1].format("YYYY-MM-DD HH:mm:ss")
             }
           })
           .then(() => {
@@ -331,7 +331,13 @@ class TaskList extends Component {
         </div>
       </div>
     );
-
+    const MoreBtn = ({ data: { status, id } }) => {
+      if (status == "1") {
+        return <a onClick={this.doneTask.bind(this, { id })}>完成</a>;
+      } else {
+        return <a onClick={this.doneTask.bind(this, { id })}>完成</a>;
+      }
+    };
     return (
       <PageHeaderLayout>
         <Modal
@@ -447,7 +453,8 @@ class TaskList extends Component {
               renderItem={item => (
                 <List.Item
                   actions={[
-                    <a onClick={this.doneTask.bind(this, { item })}>完成</a>,
+                    // <a onClick={this.doneTask.bind(this, { item })}>完成</a>,
+                    <MoreBtn data={item} />,
                     <a onClick={this.delTask.bind(this, { item })}>删除</a>
                   ]}
                 >

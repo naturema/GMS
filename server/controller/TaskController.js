@@ -89,6 +89,7 @@ module.exports = {
   async newTask(ctx) {
     const data = JSON.parse(ctx.request.body);
     data.status = "0";
+    console.log(data);
     const result = await taskService.newTask(data);
     ctx.body = result;
   },

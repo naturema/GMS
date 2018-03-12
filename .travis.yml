@@ -1,36 +1,17 @@
 language: node_js
-
 node_js:
-  - "8"
-
-env:
-  matrix:
-    - TEST_TYPE=lint
-    - TEST_TYPE=build
-    - TEST_TYPE=test-all
-    - TEST_TYPE=test-dist
-
-addons:
-  apt:
-    packages:
-      - xvfb
-
+- '8'
+before_install:
+- openssl aes-256-cbc -K $encrypted_260f5982fb87_key -iv $encrypted_260f5982fb87_iv
+  -in id_rsa.enc -out ~/.ssh/id_rsa -d
+- chmod 600 ~/.ssh/id_rsa
+- echo -e "Host 59.110.233.80\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 install:
-  - export DISPLAY=':99.0'
-  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-  - npm install
-
+- npm i npminstall && npminstall
 script:
-  - |
-    if [ "$TEST_TYPE" = lint ]; then
-      npm run lint
-    elif [ "$TEST_TYPE" = build ]; then
-      npm run build
-    elif [ "$TEST_TYPE" = test-all ]; then
-      npm run test:all
-    elif [ "$TEST_TYPE" = test-dist ]; then
-      npm run site
-      mv dist/* ./
-      php -S localhost:8000 &
-      DEBUG=* npm test .e2e.js
-    fi
+- npm run travis
+after_success:
+- tar -jcf Blog.tar.bz2 * --exclude=mock --exclude=node_modules --exclude=src --exclude=.roadhogrc.mock.js
+- scp GMS.tar.bz2 root@59.110.233.80:/home/GMS
+- ssh root@59.110.233.80 'cd /home/GMS && tar -jxf GMS.tar.bz2'
+- ssh root@59.110.233.80 'cd /home/GMS && nodemon app.js'

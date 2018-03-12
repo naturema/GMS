@@ -112,7 +112,7 @@ export default class Draft extends PureComponent {
           loadMore={loadMore}
           itemLayout="horizontal"
           dataSource={draftList}
-          renderItem={item => (
+          renderItem={(item, index) => (
             <List.Item
               actions={[
                 <a onClick={this.editDraft.bind(this, { item })}>编辑</a>,
@@ -120,10 +120,11 @@ export default class Draft extends PureComponent {
               ]}
             >
               <List.Item.Meta
-                avatar={
-                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                title={
+                  <a>
+                    {index + 1}. {item.blog_title}
+                  </a>
                 }
-                title={<a>{item.blog_title}</a>}
                 description={item.blog_desc}
               />
             </List.Item>
