@@ -9,7 +9,7 @@ before_install:
 install:
 - npm i npminstall && npminstall
 script:
-- npm run travis
+- node -v
 after_success:
 - tar -jcf GMS.tar.bz2 * --exclude=mock --exclude=node_modules --exclude=src --exclude=.roadhogrc.mock.js
 - scp GMS.tar.bz2 root@59.110.233.80:/home/GMS
