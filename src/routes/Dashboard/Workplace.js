@@ -147,7 +147,7 @@ export default class Workplace extends PureComponent {
             description={
               <span className={styles.datetime} title={item.date}>
                 {item.date} &nbsp;{moment(item.date).format("dddd")}|
-                {moment(item.date, "YYYY-MM-DD hh:mm:ss").fromNow()}
+                {moment(item.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
               </span>
             }
           />
@@ -223,11 +223,11 @@ export default class Workplace extends PureComponent {
                       <List.Item key={item.id} className={styles.taskList}>
                         <List.Item.Meta
                           title={
-                            <a href="">
+                            <a>
                               {index + 1}.{item.task_title}
                               <span className={styles.titleExtra}>
                                 {moment(item.hope_finish).format(
-                                  "YYYY-MM-DD hh:mm:ss"
+                                  "YYYY-MM-DD HH:mm:ss"
                                 )}
                               </span>
                             </a>

@@ -84,7 +84,6 @@ module.exports = {
   async newTask(option) {
     time.format(option.start_date);
     time.format(option.hope_finish);
-    console.log(option);
     const result = await db.insertData("gms_task", option);
     return result;
   },

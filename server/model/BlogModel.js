@@ -103,7 +103,7 @@ module.exports = {
     return result;
   },
   async getTags() {
-    const _sql = `SELECT * from blog_tag`;
+    const _sql = `SELECT * FROM blog_tag WHERE 1=1`;
     const result = await db.query(_sql);
     return result;
   },
