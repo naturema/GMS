@@ -1,5 +1,5 @@
 "use strict";
-const config = require("../config.js").database;
+const config = require("../dbconfig.js").database;
 const mysql = require("mysql");
 
 const pool = mysql.createPool({
