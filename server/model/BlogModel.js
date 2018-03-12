@@ -85,7 +85,7 @@ module.exports = {
       blog_title: title,
       blog_desc: short,
       blog_content: content,
-      create_time: time.format(new Date()),
+      update_time: time.format(new Date()),
       status: 0 //1 发布 0 草稿
     };
     const result = await db.insertData("blog_main", option);
@@ -127,6 +127,22 @@ module.exports = {
     const _sql = `
       SELECT COUNT(*) AS total_count FROM blog_main
       WHERE status = 1
+    `;
+    return db.query(_sql);
+  },
+  async getWeekBlog(start, end) {
+    const s = start + " 00:00:00";
+    const e = end + " 23:59:59";
+    const _sql = `
+      SELECT COUNT(*) AS total_count FROM blog_main
+      WHERE status = 1 and update_time between "${s}" and "${e}"
+    `;
+    return db.query(_sql);
+  },
+  async getDraftTotal() {
+    const _sql = `
+      SELECT COUNT(*) AS total_count FROM blog_main
+      WHERE status = 0
     `;
     return db.query(_sql);
   },

@@ -77,7 +77,10 @@ export default class BasicList extends PureComponent {
       });
   };
   render() {
-    const { blog: { blogList, totalBlog }, loading } = this.props;
+    const {
+      blog: { blogList, totalBlog, totalDraft, weekBlog },
+      loading
+    } = this.props;
 
     const Info = ({ title, value, bordered }) => (
       <div className={styles.headerInfo}>
@@ -134,10 +137,10 @@ export default class BasicList extends PureComponent {
                 <Info title="我的博文" value={totalBlog} bordered />
               </Col>
               <Col sm={8} xs={24}>
-                <Info title="最近一周发布博文" value="9" bordered />
+                <Info title="最近一周发布博文" value={weekBlog} bordered />
               </Col>
               <Col sm={8} xs={24}>
-                <Info title="我的草稿箱" value="3" />
+                <Info title="我的草稿箱" value={totalDraft} />
               </Col>
             </Row>
           </Card>

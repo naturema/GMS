@@ -37,6 +37,14 @@ module.exports = {
     const result = await blogModel.getBlogTotal();
     return result[0].total_count;
   },
+  async getWeekBlog(start, end) {
+    const result = await blogModel.getWeekBlog(start, end);
+    return result[0].total_count;
+  },
+  async getDraftTotal() {
+    const result = await blogModel.getDraftTotal();
+    return result[0].total_count;
+  },
   async getTagColor() {
     const result = await blogModel.getTagColorAll();
     return result;

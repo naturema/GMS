@@ -28,6 +28,8 @@ export default {
     tagList: [],
     dataSource: [],
     totalBlog: 50,
+    totalDraft: 0,
+    weekBlog: 0,
     blogList: [],
     colorData: [],
     editBlogId: ""
@@ -106,7 +108,9 @@ export default {
       const res = yield call(getBlogTotal);
       yield put({
         type: "blogTotalGet",
-        payload: res.success ? res.message : 50
+        payload: res.success
+          ? res.message
+          : { totalBlog: 50, totalDraft: 0, weekBlog: 0 }
       });
     },
     *getTagColor(_, { call, put }) {
@@ -215,7 +219,9 @@ export default {
     blogTotalGet(state, action) {
       return {
         ...state,
-        totalBlog: action.payload
+        totalBlog: action.payload.totalBlog,
+        totalDraft: action.payload.draftTotal,
+        weekBlog: action.payload.weekBlog
       };
     },
     tagColorGet(state, action) {

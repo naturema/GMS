@@ -4,6 +4,8 @@ const log = require("../config").common;
 const logger = require("../config").error;
 const format = require("../utils").format;
 const sFormat = require("../utils").symbolFormat;
+const sureWeek = require("../utils").sureWeek;
+const sureMonth = require("../utils").sureMonth;
 const blogService = require("../service/BlogService");
 module.exports = {
   /**
@@ -143,14 +145,15 @@ module.exports = {
       success: false,
       message: ""
     };
-    const res = await blogService.getBlogTotal();
-    if (res > 0) {
-      result.success = true;
-      result.message = res;
-    } else {
-      logger.error("获取博文总数失败");
-      result.message = "获取博文总数失败";
-    }
+    const obj = {};
+    obj.totalBlog = await blogService.getBlogTotal();
+    obj.weekBlog = await blogService.getWeekBlog(
+      sureWeek(new Date()).start,
+      sureWeek(new Date()).end
+    );
+    obj.draftTotal = await blogService.getDraftTotal();
+    result.success = true;
+    result.message = obj;
     ctx.body = result;
   },
   async getTagColor(ctx) {
