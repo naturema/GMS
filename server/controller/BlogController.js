@@ -120,7 +120,7 @@ module.exports = {
   async getBlogTotal(ctx) {
     const result = obj;
     const res = await blogService.getBlogTotal();
-    if (res) {
+    if (res > 0) {
       result.success = true;
       result.message = res;
     } else {

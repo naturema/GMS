@@ -106,7 +106,7 @@ export default {
       const res = yield call(getBlogTotal);
       yield put({
         type: "blogTotalGet",
-        payload: res.success ? res.message : 0
+        payload: res.success ? res.message : 50
       });
     },
     *getTagColor(_, { call, put }) {

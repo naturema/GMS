@@ -103,7 +103,8 @@ module.exports = {
     return result;
   },
   async getTags() {
-    const result = await db.select("blog_tag", "*");
+    const _sql = `select * from blog_tag`;
+    const result = await db.query(_sql);
     return result;
   },
   async getBlog(page, size) {
