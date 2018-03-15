@@ -37,7 +37,7 @@ router.post("/task/delTask", task.delTask);
 router.post("/task/changeTask", task.changeTask);
 
 // 提醒管理
-router.get("/remainder/getRemainderWeek", mock.getRemainderWeek);
+router.get("/reminder/getReminderWeek", mock.getReminderWeek);
 
 router.get("/api/project/notice", mock.notice);
 router.get("/api/currentUser", mock.user);

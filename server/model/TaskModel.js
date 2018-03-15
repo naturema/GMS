@@ -54,7 +54,6 @@ module.exports = {
     const datetime = time.format(new Date());
     const _sql = `select * from gms_task where
     "${datetime}" > hope_finish and status = "0"`;
-    console.log(_sql);
     const result = await db.query(_sql);
     return result;
   },

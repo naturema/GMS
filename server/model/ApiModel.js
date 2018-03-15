@@ -21,5 +21,28 @@ module.exports = {
     where user_name = "${name}"`;
     const result = await db.query(_sql);
     return result[0];
+  },
+  async getWarnTask(time) {
+    const _sql = `select * from gms_task
+    where "${time}" > hope_finish and status = "0"`;
+    return db.query(_sql);
+  },
+  async getWarnRemind(time) {
+    const _sql = `select * from gms_reminder
+    where "${time}" > date and status = "0"`;
+    console.log(_sql);
+    return db.query(_sql);
+  },
+  async getWarnCost(start, end) {
+    const s = start + " 00:00:00";
+    const e = end + " 23:59:59";
+    console.log(s, e);
+    const arr = [
+      {
+        real_cost: 1700,
+        pre_cost: 2000
+      }
+    ];
+    return arr;
   }
 };

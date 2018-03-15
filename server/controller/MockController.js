@@ -427,7 +427,7 @@ module.exports = {
     console.log(ctx.request.body);
     ctx.body = ["admin"];
   },
-  async getRemainderWeek(ctx) {
+  async getReminderWeek(ctx) {
     ctx.body = [
       {
         id: "1",

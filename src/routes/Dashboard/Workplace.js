@@ -79,11 +79,11 @@ const members = [
   }
 ];
 
-@connect(({ remainder, task, chart, loading }) => ({
-  remainder,
+@connect(({ reminder, task, chart, loading }) => ({
+  reminder,
   chart,
   task,
-  remainderLoading: loading.effects["remainder/getRemainderWeek"],
+  reminderLoading: loading.effects["reminder/getReminderWeek"],
   workTodoLoading: loading.effects["task/getWorkTodo"],
   myTodoLoading: loading.effects["task/getMyTodo"]
 }))
@@ -104,7 +104,7 @@ export default class Workplace extends PureComponent {
       }
     });
     dispatch({
-      type: "remainder/getRemainderWeek"
+      type: "reminder/getReminderWeek"
     });
     dispatch({
       type: "chart/fetch"
@@ -118,13 +118,13 @@ export default class Workplace extends PureComponent {
     });
   }
 
-  renderRemainders() {
-    const { remainder: { remainderWeek } } = this.props;
-    return remainderWeek.map((item, index) => {
+  renderReminders() {
+    const { reminder: { reminderWeek } } = this.props;
+    return reminderWeek.map((item, index) => {
       return (
         <List.Item
           key={item.id}
-          className={styles.remainderList}
+          className={styles.reminderList}
           extra={
             <div
               style={{
@@ -161,7 +161,7 @@ export default class Workplace extends PureComponent {
       task: { workTodo, myTodo },
       workTodoLoading,
       myTodoLoading,
-      remainderLoading,
+      reminderLoading,
       chart: { radarData }
     } = this.props;
 
@@ -274,11 +274,11 @@ export default class Workplace extends PureComponent {
               bordered={false}
               className={styles.activeCard}
               title="提醒事项"
-              loading={remainderLoading}
+              loading={reminderLoading}
             >
-              <List loading={remainderLoading} size="large">
+              <List loading={reminderLoading} size="large">
                 <div className={styles.activitiesList}>
-                  {this.renderRemainders()}
+                  {this.renderReminders()}
                 </div>
               </List>
             </Card>

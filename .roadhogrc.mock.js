@@ -68,7 +68,7 @@ const proxy = {
     ]
   },
   //7FFF00 1 FFD700 2 EE7942 3 E4393C 4
-  "GET /remainder/getRemainderWeek": [
+  "GET /reminder/getReminderWeek": [
     {
       id: "1",
       content: "早检",

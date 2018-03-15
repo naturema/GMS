@@ -5,6 +5,7 @@ const path = require("path");
 const router = require("./server/router");
 const bodyParser = require("koa-bodyparser");
 const koaBody = require("koa-body");
+const mailSchedule = require("./server/schedule/mail");
 
 const app = new Koa();
 app.use(koaBody());
@@ -19,4 +20,6 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 app.listen(3001);
+mailSchedule.sendMail();
+
 console.log("[GMS] server is starting at port 3001");

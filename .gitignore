@@ -24,3 +24,4 @@ jsconfig.json
 
 server/logs
 id_rsa.enc
+dbconfig.js
