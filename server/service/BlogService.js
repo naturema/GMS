@@ -60,7 +60,7 @@ module.exports = {
       : false;
   },
   async newTag(data) {
-    const result = await blogModel.insertTag(data.valune);
+    const result = await blogModel.insertTag(data.value);
     const result1 = await blogModel.updateTagColor(data.value.color, "1");
     return result.affectedRows > 0 && result1.affectedRows > 0 ? true : false;
   },
