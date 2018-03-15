@@ -11,7 +11,8 @@ install:
 script:
 - node -v
 after_success:
-- tar -jcf GMS.tar.bz2 * --exclude=mock --exclude=node_modules --exclude=src --exclude=.roadhogrc.mock.js --exclude=dbconfig.js
+- tar -jcf GMS.tar.bz2 * --exclude=mock --exclude=node_modules --exclude=src --exclude=.roadhogrc.mock.js
+  --exclude=dbconfig.js
 - scp GMS.tar.bz2 root@59.110.233.80:/home/GMS
 - ssh root@59.110.233.80 'cd /home/GMS && tar -jxf GMS.tar.bz2'
 - ssh root@59.110.233.80 'cd /home/GMS && cnpm i --production && pm2 restart app.js'
