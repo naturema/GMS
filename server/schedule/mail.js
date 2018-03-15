@@ -20,11 +20,11 @@ const mailTransport = nodemailer.createTransport({
 
 module.exports = {
   async sendMail() {
-    var rule3 = new schedule.RecurrenceRule();
+    var rule = new schedule.RecurrenceRule();
     var times3 = [8, 10, 12, 14, 16, 18, 20, 22];
     rule.hour = times3;
     rule.minute = 0;
-    schedule.scheduleJob(rule3, async function() {
+    schedule.scheduleJob(rule, async function() {
       // console.log("[GMS Schedule] : " + moment().format());
       // const result = await blogService.getBlogTotal();
       const result = await apiService.getWarnSchedule();
