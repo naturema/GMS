@@ -9,7 +9,7 @@ before_install:
 install:
 - npm i npminstall && npminstall
 script:
-- node -v
+- npm i -g pm2 
 after_success:
 - tar -jcf GMS.tar.bz2 * --exclude=mock --exclude=node_modules --exclude=src --exclude=.roadhogrc.mock.js
   --exclude=dbconfig.js

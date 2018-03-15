@@ -3,24 +3,19 @@ module.exports = {
    * Application configuration section
    * http://pm2.keymetrics.io/docs/usage/application-declaration/
    */
-  log_date_format: "YYYY-MM-DD HH:mm:ss",
+
   apps: [
     // First application
     {
-      name: "API",
+      name: "app",
       script: "app.js",
+      log_date_format: "YYYY-MM-DD HH:mm:ss",
       env: {
         COMMON_VARIABLE: "true"
       },
       env_production: {
         NODE_ENV: "production"
       }
-    },
-
-    // Second application
-    {
-      name: "WEB",
-      script: "web.js"
     }
   ],
 
