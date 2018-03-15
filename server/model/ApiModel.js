@@ -30,13 +30,11 @@ module.exports = {
   async getWarnRemind(time) {
     const _sql = `select * from gms_reminder
     where "${time}" > date and status = "0"`;
-    console.log(_sql);
     return db.query(_sql);
   },
   async getWarnCost(start, end) {
     const s = start + " 00:00:00";
     const e = end + " 23:59:59";
-    console.log(s, e);
     const arr = [
       {
         real_cost: 1700,

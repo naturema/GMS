@@ -26,7 +26,6 @@ module.exports = {
       .format("YYYY-MM-DD HH:mm:ss");
     obj.task = await apiModel.getWarnTask(time);
     obj.reminder = await apiModel.getWarnRemind(time);
-    console.log(obj.reminder);
     return obj;
   }
 };

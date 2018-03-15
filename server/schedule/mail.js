@@ -22,7 +22,8 @@ module.exports = {
   async sendMail() {
     var rule3 = new schedule.RecurrenceRule();
     var times3 = [8, 10, 12, 14, 16, 18, 20, 22];
-    rule3.hour = times3;
+    rule.hour = times3;
+    rule.minute = 0;
     schedule.scheduleJob(rule3, async function() {
       // console.log("[GMS Schedule] : " + moment().format());
       // const result = await blogService.getBlogTotal();
