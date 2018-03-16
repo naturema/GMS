@@ -3,20 +3,13 @@ const time = require("silly-datetime");
 
 module.exports = {
   async publish(title, short, content, tags) {
-    const obj = {};
+    let tagIda = "",
+      tagIdb = "";
     if (tags.length > 1) {
-      obj.namea = tags[0];
-      obj.nameb = tags[1];
-      const colora = await this.getTagColor(tags[0]);
-      const colorb = await this.getTagColor(tags[1]);
-      obj.colora = colora;
-      obj.colorb = colorb;
+      tagIda = await this.getTagIdByName(tags[0]);
+      tagIdb = await this.getTagIdByName(tags[1]);
     } else {
-      obj.namea = tags[0];
-      obj.nameb = "";
-      const colora = await this.getTagColor(tags[0]);
-      obj.colora = colora;
-      obj.colorb = "";
+      tagIda = await this.getTagIdByName(tags[0]);
     }
     const option = {
       blog_title: title,
@@ -24,10 +17,8 @@ module.exports = {
       blog_content: content,
       update_time: time.format(new Date()),
       status: 1, //1 发布 0 草稿
-      tag_name_a: obj.namea,
-      tag_name_b: obj.nameb,
-      tag_color_a: obj.colora,
-      tag_color_b: obj.colorb
+      tag_id_a: tagIda,
+      tag_id_b: tagIdb
     };
     const result = await db.insertData("blog_main", option);
     if (result.affectedRows > 0) {
@@ -42,20 +33,13 @@ module.exports = {
     return result;
   },
   async editBlog(title, short, content, tags, id) {
-    const obj = {};
+    let tagIda = "",
+      tagIdb = "";
     if (tags.length > 1) {
-      obj.namea = tags[0];
-      obj.nameb = tags[1];
-      const colora = await this.getTagColor(tags[0]);
-      const colorb = await this.getTagColor(tags[1]);
-      obj.colora = colora;
-      obj.colorb = colorb;
+      tagIda = await this.getTagIdByName(tags[0]);
+      tagIdb = await this.getTagIdByName(tags[1]);
     } else {
-      obj.namea = tags[0];
-      obj.nameb = "";
-      const colora = await this.getTagColor(tags[0]);
-      obj.colora = colora;
-      obj.colorb = "";
+      tagIda = await this.getTagIdByName(tags[0]);
     }
     const option = {
       blog_title: title,
@@ -63,10 +47,8 @@ module.exports = {
       blog_content: content,
       update_time: time.format(new Date()),
       status: 1, //1 发布 0 草稿
-      tag_name_a: obj.namea,
-      tag_name_b: obj.nameb,
-      tag_color_a: obj.colora,
-      tag_color_b: obj.colorb
+      tag_id_a: tagIda,
+      tag_id_b: tagIdb
     };
     const result = await db.updateData("blog_main", option, id);
     if (result.affectedRows > 0) {
@@ -109,9 +91,11 @@ module.exports = {
   },
   async getBlog(page, size) {
     const row = (page - 1) * 5;
-    const _sql = `
-         SELECT * FROM blog_main
-         WHERE status=1 limit ${row},${size}`;
+    const _sql = `select a.*,group_concat(b.tag_name) as tag_name,group_concat(b.tag_color) as tag_color
+      from blog_main a left OUTER JOIN blog_tag b
+	    on ( a.tag_id_a = b.id or a.tag_id_b = b.id)
+      where a.status = "1"
+      group by a.id limit ${row},${size}`;
     const result = await db.query(_sql);
     return result;
   },
@@ -189,5 +173,13 @@ module.exports = {
   async delBlog(id) {
     const result = await db.deleteDataById("blog_main", id);
     return result;
+  },
+  async getTagIdByName(name) {
+    const _sql = `
+      SELECT id FROM blog_tag
+      WHERE tag_name = "${name}"
+    `;
+    const result = await db.query(_sql);
+    return result[0].id;
   }
 };

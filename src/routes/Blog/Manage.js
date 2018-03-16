@@ -184,9 +184,11 @@ export default class BasicList extends PureComponent {
                     }
                     description={
                       <span>
-                        <Tag color="blue">{item.tag_name_a}</Tag>
-                        {item.tag_name_b && (
-                          <Tag color="blue">{item.tag_name_b}</Tag>
+                        {item.tag_name.split(",")[0] && (
+                          <Tag color="blue">{item.tag_name.split(",")[0]}</Tag>
+                        )}
+                        {item.tag_name.split(",")[1] && (
+                          <Tag color="blue">{item.tag_name.split(",")[1]}</Tag>
                         )}
                       </span>
                     }

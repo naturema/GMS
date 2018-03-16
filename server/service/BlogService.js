@@ -31,6 +31,10 @@ module.exports = {
   },
   async getBlog(page, size) {
     const result = await blogModel.getBlog(page, size);
+    for (let item of result) {
+      item.tag_name = item.tag_name ? item.tag_name : "";
+      item.tag_color = item.tag_color ? item.tag_color : "";
+    }
     return result;
   },
   async getBlogTotal() {
