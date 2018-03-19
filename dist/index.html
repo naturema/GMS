@@ -7,11 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>. Gatinul</title>
   <link rel="icon" href="/favicon.png" type="image/x-icon">
+  <style media="screen">
+    .root_loading_img{
+        position: absolute;
+        top: 26%;
+        left: 34%;
+    }
+    @media screen and (max-width: 960px){
+      .root_loading_img{
+          position: absolute;
+          top: 25%;
+          left: 0%;
+      }
+    }
+  </style>
 <link href="/index.e4d9888c.css" rel="stylesheet"></head>
 
 <body>
   <div id="root">
-    <img style="position:absolute;top:26%;left:34%" src="./static/loading.gif" alt="">
+    <img class="root_loading_img" src="./static/loading.gif" alt="">
   </div>
 <script type="text/javascript" src="/index.d844abf1.js"></script></body>
 
