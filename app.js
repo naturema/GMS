@@ -22,4 +22,4 @@ app.use(router.allowedMethods());
 app.listen(3001);
 mailSchedule.sendMail();
 
-console.log("[GMS] server is starting at port 3001");
+console.log("[GMS] server is starting at port 3001~");
