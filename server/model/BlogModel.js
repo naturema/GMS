@@ -18,7 +18,8 @@ module.exports = {
       update_time: time.format(new Date()),
       status: 1, //1 发布 0 草稿
       tag_id_a: tagIda,
-      tag_id_b: tagIdb
+      tag_id_b: tagIdb,
+      likes:1
     };
     const result = await db.insertData("blog_main", option);
     if (result.affectedRows > 0) {
