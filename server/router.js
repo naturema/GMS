@@ -12,6 +12,8 @@ router.get("/", main.index);
 router.post("/api/getAuthority", api.getAuthority);
 router.post("/api/login/account", api.login);
 router.post("/api/currentUser", api.user);
+router.post("/api/register", api.register);
+router.post("/api/review", api.warnReview);
 // 博客管理
 router.post("/blog/publish", blog.publish);
 router.post("/blog/editBlog", blog.editBlog);

@@ -67,13 +67,19 @@ export async function fakeAccountLogin(params) {
   });
 }
 
-export async function fakeRegister(params) {
+export async function register(params) {
   return request("/api/register", {
     method: "POST",
-    body: params
+    body: JSON.stringify(params)
   });
 }
 
 export async function queryNotices() {
   return request("/api/notices");
+}
+export async function review(params) {
+  return request("/api/review", {
+    method: "POST",
+    body: JSON.stringify(params)
+  });
 }

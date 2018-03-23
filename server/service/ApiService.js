@@ -27,5 +27,9 @@ module.exports = {
     obj.task = await apiModel.getWarnTask(time);
     obj.reminder = await apiModel.getWarnRemind(time);
     return obj;
+  },
+  async register(opt) {
+    const result = await apiModel.register(opt)
+    return result.affectedRows > 0 ? true : false;
   }
 };

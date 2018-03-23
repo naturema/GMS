@@ -238,7 +238,7 @@ export const getRouterData = app => {
       )
     },
     "/user/register-result": {
-      component: dynamicWrapper(app, [], () =>
+      component: dynamicWrapper(app, ["register"], () =>
         import("../routes/User/RegisterResult")
       )
     }

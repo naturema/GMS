@@ -1,4 +1,6 @@
 const moment = require("moment");
+const nodemailer = require("nodemailer");
+const email = require("../dbconfig").email;
 /**
  * 返回格式化后的日志
  * @param  {string} 日志内容
@@ -53,3 +55,35 @@ exports.sureMonth = function(d) {
   obj.end = moment(lastDay).format("YYYY-MM-DD");
   return obj;
 };
+exports.sendMail = function(subject, text, content) {
+  const mailTransport = nodemailer.createTransport({
+    host: "smtp.163.com",
+    secure: true,
+    post: "465",
+    tls: {
+      // resolve 'unable to verify the first certificate'
+      rejectUnauthorized: false
+    },
+    auth: {
+      user: email.name,
+      pass: email.password
+    }
+  });
+  const options = {
+    from: '"gatinul" <13252716435@163.com>',
+    to: "shixy@asiainfo.com",
+    subject: subject,
+    text: text,
+    html:
+      "<h1>Hi, Gatinul</h1>" +
+      '<p><a href="http://gatinul.org:8080">GMS管理系统</a></p>' +
+      content
+  };
+  mailTransport.sendMail(options, function(err, msg) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(`[GMS ${subject}] 发送邮件成功`);
+    }
+  });
+}

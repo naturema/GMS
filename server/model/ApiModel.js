@@ -4,7 +4,7 @@ const time = require("silly-datetime");
 module.exports = {
   async canLogin(userName, password) {
     const _sql = `select * from gms_user_login
-    where user_name = "${userName}" and password = "${password}"
+    where user_name = "${userName}" and password = "${password}" and status = "1"
     `;
     const result = await db.query(_sql);
     return result;
@@ -42,5 +42,10 @@ module.exports = {
       }
     ];
     return arr;
+  },
+  async register(opt) {
+    opt.update_time = time.format(new Date());
+    const result = await db.insertData("gms_user_login", opt);
+    return result;
   }
 };
