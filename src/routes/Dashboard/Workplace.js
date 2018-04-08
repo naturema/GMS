@@ -29,51 +29,43 @@ const links = [
   {
     title: "查任务",
     href: "../../task/taskList"
-  },
-  {
-    title: "操作五",
-    href: ""
-  },
-  {
-    title: "操作六",
-    href: ""
   }
 ];
 // 数据表中读取
 const members = [
   {
     id: "1",
-    title: "沃行",
+    title: "新浪",
     // logo: "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png",
     link: ""
   },
   {
     id: "2",
-    title: "博客系统",
+    title: "百度",
     // logo: "https://gw.alipayobjects.com/zos/rmsportal/cnrhVkzwxjPwAaCfPbdc.png",
     link: ""
   },
   {
     id: "3",
-    title: "智能运维",
+    title: "知乎",
     // logo: "https://gw.alipayobjects.com/zos/rmsportal/gaOngJwsRYRaVAuXXcmB.png",
     link: ""
   },
   {
     id: "4",
-    title: "小程序",
+    title: "网易",
     // logo: "https://gw.alipayobjects.com/zos/rmsportal/ubnKSIfAJTxIgXOKlciN.png",
     link: ""
   },
   {
     id: "5",
-    title: "快速开发",
+    title: "cnbeta",
     // logo: "https://gw.alipayobjects.com/zos/rmsportal/WhxKECPNujWoWEFNdnJE.png",
     link: ""
   },
   {
     id: "6",
-    title: "沃扫码",
+    title: "google",
     // logo: "https://gw.alipayobjects.com/zos/rmsportal/ubnKSIfAJTxIgXOKlciN.png",
     link: ""
   }
@@ -173,9 +165,9 @@ export default class Workplace extends PureComponent {
         <div className={styles.content}>
           <div className={styles.contentTitle}>
             {new Date().getMonth() + 1}月{new Date().getDate()}日 &nbsp; Hello
-            Gatinul
+            温梓茵
           </div>
-          <div>前端开发 | 6 + 3 = 9 but so does 5 + 4.</div>
+          <div>个人管理 | 6 + 3 = 9 but so does 5 + 4.</div>
         </div>
       </div>
     );
@@ -291,16 +283,6 @@ export default class Workplace extends PureComponent {
               bodyStyle={{ padding: 0 }}
             >
               <EditableLinkGroup links={links} linkElement={Link} />
-            </Card>
-            <Card
-              style={{ marginBottom: 24 }}
-              bordered={false}
-              title="消费指数"
-              loading={radarData.length === 0}
-            >
-              <div className={styles.chart}>
-                <Radar hasLegend height={343} data={radarData} />
-              </div>
             </Card>
             <Card
               bodyStyle={{ paddingTop: 12, paddingBottom: 12 }}

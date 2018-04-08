@@ -69,6 +69,7 @@ export default class LoginPage extends Component {
             <UserName name="userName" placeholder="user" />
             <Password name="password" placeholder="123456" />
           </Tab>
+          {/*
           <Tab key="mobile" tab="手机号登录">
             {login.status === "error" &&
               login.type === "mobile" &&
@@ -77,6 +78,7 @@ export default class LoginPage extends Component {
             <Mobile name="mobile" />
             <Captcha name="captcha" />
           </Tab>
+        */}
           <div>
             <Checkbox
               checked={this.state.autoLogin}
@@ -90,10 +92,12 @@ export default class LoginPage extends Component {
           </div>
           <Submit loading={submitting}>登录</Submit>
           <div className={styles.other}>
-            其他登录方式
-            <Icon className={styles.icon} type="github" />
-            <Icon className={styles.icon} type="wechat" />
-            <Icon className={styles.icon} type="twitter" />
+            {/*
+                其他登录方式
+              <Icon className={styles.icon} type="github" />
+              <Icon className={styles.icon} type="wechat" />
+              <Icon className={styles.icon} type="twitter" />
+            */}
             <Link className={styles.register} to="/user/register">
               注册账户
             </Link>

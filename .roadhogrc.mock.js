@@ -23,7 +23,7 @@ const proxy = {
       }
     },
     $body: {
-      name: "Gatinul",
+      name: "温梓茵",
       avatar: "static/avatar.png",
       userid: "00000001",
       notifyCount: 12
@@ -55,7 +55,7 @@ const proxy = {
     message: [
       {
         id: 26,
-        blog_title: "Hello Gatinul",
+        blog_title: "Hello 温梓茵",
         blog_desc: "> 2018 02 11",
         blog_content: "> 2018 02 11\n\n\n测试博客保存是否好用",
         likes: null,
@@ -153,7 +153,7 @@ const proxy = {
     res.send({
       status: "ok",
       type,
-      currentAuthority: "gatinul"
+      currentAuthority: "温梓茵"
     });
   },
   "POST /api/register": (req, res) => {

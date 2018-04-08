@@ -21,13 +21,13 @@ const links = [
   {
     key: "blog",
     title: "博客",
-    href: "https://gatinul.org"
+    href: "https://温梓茵.org"
   }
 ];
 
 const copyright = (
   <div>
-    Copyright <Icon type="copyright" /> 2018 gatinul
+    Copyright <Icon type="copyright" /> 2018 沈阳师范大学 | 温梓茵
   </div>
 );
 
@@ -35,9 +35,9 @@ class UserLayout extends React.PureComponent {
   getPageTitle() {
     const { routerData, location } = this.props;
     const { pathname } = location;
-    let title = "Gatinul";
+    let title = "温梓茵";
     if (routerData[pathname] && routerData[pathname].name) {
-      title = `${routerData[pathname].name} - Gatinul`;
+      title = `${routerData[pathname].name} - 温梓茵`;
     }
     return title;
   }
@@ -51,7 +51,7 @@ class UserLayout extends React.PureComponent {
               <div className={styles.header}>
                 <Link to="/">
                   <img alt="logo" className={styles.logo} src={logo} />
-                  <span className={styles.title}>. Gatinul</span>
+                  <span className={styles.title}>. 温梓茵</span>
                 </Link>
               </div>
               <div className={styles.desc}>GMS 全方位的个人管理系统</div>

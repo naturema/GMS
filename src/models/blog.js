@@ -22,7 +22,7 @@ export default {
   state: {
     isPublish: "发布失败",
     isDraft: "保存失败",
-    value: "## Hello Gatinul , write now ~ \n > 20170613",
+    value: "## Hello 温梓茵 , write now ~ \n > 20170613",
     draftList: [],
     more: true,
     tagList: [],
@@ -174,7 +174,7 @@ export default {
       return {
         ...state,
         draftList: [],
-        value: "## Hello Gatinul , write now ~ \n > 20170613",
+        value: "## Hello 温梓茵 , write now ~ \n > 20170613",
         more: true,
         editBlogId: ""
       };
